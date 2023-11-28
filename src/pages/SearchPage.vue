@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       houses: [],
+      extras: [],
 
       pagination: {
         links: null,
@@ -19,12 +20,19 @@ export default {
   components: { HouseCard },
 
   methods: {
-    fetchCards(uri = store.api.baseUrl + "search") {
+    fetchHouses(uri = store.api.baseUrl + "search") {
       axios.get(uri).then((response) => {
         console.log(response);
         this.houses = response.data;
         this.pagination.links = response.data.links;
       });
+    },
+
+    fetchExtras(uri = store.api.baseUrl + "extras"){
+      axios.get(uri).then((response)=>{
+        console.log(response);
+        this.extras = response.data;
+      })
     },
 
     postSearch() {
@@ -37,7 +45,8 @@ export default {
   },
 
   created() {
-    this.fetchCards();
+    this.fetchHouses();
+    this.fetchExtras();
   },
 };
 </script>
@@ -56,6 +65,11 @@ export default {
       Search
     </button>
   </form>
+  <div class="d-flex flex-row gap-3">
+    <div v-for="extra in this.extras">
+      <input type="checkbox" name="" id="">{{ extra.name }}
+    </div>
+  </div>
   <h4>Risultati ricerca:</h4>
   <div class="row row-cols-3 g-4">
     <HouseCard v-for="house in houses" :house="house" />
