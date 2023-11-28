@@ -16,10 +16,17 @@ export default {
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="http://localhost:8000/login">login</a>
+						<a class="nav-link" href="http://localhost:8000/login">Login</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="http://localhost:8000/register">register</a>
+						<a class="nav-link" href="http://localhost:8000/register">Register</a>
+					</li>
+					<li class="nav-item">
+						<RouterLink 
+						class="nav-link" 
+						:to="{name: 'search'}"
+						>Cerca
+					</RouterLink>
 					</li>
 				</ul>
 			</div>
