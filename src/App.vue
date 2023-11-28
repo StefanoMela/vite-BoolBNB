@@ -1,18 +1,16 @@
 <script>
 import NavbarUi from "./components/ui/NavbarUi.vue";
-import HouseFeaturedList from "./components/houses/HouseFeaturedList.vue";
+import { RouterView } from "vue-router";
 
 export default {
-	data() {
-		return {};
-	},
-	components: { NavbarUi, HouseFeaturedList },
+
+	components: { NavbarUi, RouterView },
 };
 </script>
 
 <template>
 	<NavbarUi />
-	<HouseFeaturedList />
+	<router-view></router-view>
 </template>
 
 <style></style>
