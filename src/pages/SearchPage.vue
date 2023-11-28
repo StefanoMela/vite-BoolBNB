@@ -66,9 +66,13 @@ export default {
     </button>
   </form>
   <div class="d-flex flex-row gap-3">
-    <div v-for="extra in this.extras">
-      <input type="checkbox" name="" id="">{{ extra.name }}
-    </div>
+    <span 
+    class="bagde rounded-pill mx-1 px-1"
+    v-for="extra in this.extras"
+    :style="{ backgroundColor: extra.color}"
+    >
+    {{ extra.name }}
+    </span>
   </div>
   <h4>Risultati ricerca:</h4>
   <div class="row row-cols-3 g-4">
