@@ -11,7 +11,7 @@ export default {
 <template>
 	<div class="col">
 		<div class="card h-100">
-			<img :src="house.cover_image" class="img-fluid" alt="..." />
+			<img :src="house.cover_image" class="card-img-top" alt="..." />
 			<div class="card-body">
 				<h4 class="card-title">{{ house.title }}</h4>
 				<p class="card-text">{{ house.description }}</p>
