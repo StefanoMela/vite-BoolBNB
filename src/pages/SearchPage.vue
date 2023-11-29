@@ -35,7 +35,7 @@ export default {
   methods: {
     fetchHouses(uri = store.api.baseUrl + "search") {
       axios.get(uri).then((response) => {
-        // console.log(response);
+        console.log(response);
         this.houses = response.data.data;
         this.pagination.links = response.data.links;
       });
@@ -127,7 +127,7 @@ export default {
     <ul class="pagination">
       <li
         v-for="link in this.pagination.links"
-        @click="fetchCards(link.url)"
+        @click="fetchHouses(link.url)"
         class="page-item"
       >
         <a class="page-link" href="#" v-html="link.label"></a>
