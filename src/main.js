@@ -1,3 +1,4 @@
+import App from "./App.vue";
 import { createApp } from "vue";
 import "./assets/scss/style.scss";
 
@@ -14,6 +15,28 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 /* import specific icons */
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
-import App from "./App.vue";
+import { faKitchenSet } from "@fortawesome/free-solid-svg-icons";
+import { faWifi } from "@fortawesome/free-solid-svg-icons";
+import { faSeedling } from "@fortawesome/free-solid-svg-icons";
+import { faSquareParking } from "@fortawesome/free-solid-svg-icons";
+import { faTv } from "@fortawesome/free-solid-svg-icons";
+import { faPersonSwimming } from "@fortawesome/free-solid-svg-icons";
+import { faWind } from "@fortawesome/free-solid-svg-icons";
+import { faWater } from "@fortawesome/free-solid-svg-icons";
 
-createApp(App).use(router).mount("#app");
+library.add(
+  faUserSecret,
+  faKitchenSet,
+  faWifi,
+  faSeedling,
+  faSquareParking,
+  faTv,
+  faPersonSwimming,
+  faWind,
+  faWater
+);
+
+const app = createApp(App);
+app.use(router);
+app.component("font-awesome-icon", FontAwesomeIcon);
+app.mount("#app");
