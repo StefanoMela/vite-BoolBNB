@@ -1,5 +1,5 @@
 <script>
-import { store } from "../data/store";
+import { store, createSearchBox } from "../data/store";
 import axios from "axios";
 import HouseCard from "../components/houses/HouseCard.vue";
 
@@ -25,7 +25,8 @@ export default {
       },
       store,
       searchField: {
-        
+        longitude: 0,
+        latitude: 0,
       },
     };
   },
@@ -49,17 +50,25 @@ export default {
     },
 
     postSearch() {
-      if (!this.searchField) return;
-      const data = this.searchField;
-      axios.post(store.api.baseUrl + "search", data).then((response) => {
-        console.log(response);
-      });
+      // if (!store.addressSearch) return;
+      const data = store.addressSearch;
+      axios
+        .get(store.api.baseUrl + "search/coordinate", {
+          params: store.addressSearch,
+        })
+        .then((response) => {
+          console.log(response);
+        });
     },
   },
 
   created() {
     this.fetchHouses();
     this.fetchExtras();
+  },
+
+  mounted() {
+    createSearchBox();
   },
 };
 </script>
@@ -69,23 +78,25 @@ export default {
   <form class="d-flex my-5" role="search">
     <input
       class="form-control me-2"
-      type="search"
+      type="hidden"
       placeholder="Search"
       aria-label="Search"
       v-model="searchField"
     />
+    <div id="address-element"></div>
     <button @click="postSearch()" class="btn btn-outline-success" type="submit">
       Search
     </button>
   </form>
   <div class="d-flex flex-row gap-3">
-    <div v-for="(extra, index) in this.extras" class="text-center mx-3 text-capitalize fw-bold">
+    <div
+      v-for="(extra, index) in this.extras"
+      class="text-center mx-3 text-capitalize fw-bold"
+    >
       {{ extra.name }}
-      <input :key="extra.index" id="btn" type="checkbox"/>
+      <input :key="extra.index" id="btn" type="checkbox" />
       <!-- will be hidden -->
-      <label
-      :style="{ backgroundColor: extra.color }"
-      for="btn"></label>
+      <label :style="{ backgroundColor: extra.color }" for="btn"></label>
       <!-- toggle, will activate checkbox -->
       <div class="plate"></div>
       <!-- animating background -->
@@ -143,7 +154,6 @@ input[type="checkbox"] {
       // transition: all 220ms cubic-bezier(0.76, 0.01, 0.15, 0.97);
     }
 
-
     &::after {
       background-color: #999;
     }
@@ -175,5 +185,4 @@ input[type="checkbox"] {
     animation: rot 10s linear infinite;
   }
 }
-
 </style>
