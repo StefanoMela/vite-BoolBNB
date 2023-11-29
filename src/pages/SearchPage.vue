@@ -10,23 +10,23 @@ export default {
       extras: [],
 
       filters: {
-        kitchen: 0,
-        wiFi: 0,
-        garden: 0,
-        box: 0,
-        tv: 0,
-        pool: 0,
-        ac: 0,
-        seaview: 0,
+        cucina: false,
+        "wi-fi": false,
+        giardino: false,
+        "posto auto": false,
+        tv: false,
+        piscina: false,
+        "aria condizionata": false,
+        "vista mare": false,
       },
+
+      filteredHouses: [],
 
       pagination: {
         links: null,
       },
       store,
-      searchField: {
-        
-      },
+      searchField: {},
     };
   },
 
@@ -55,6 +55,19 @@ export default {
         console.log(response);
       });
     },
+
+    applyFilters() {
+      // Filtra le case in base allo stato dei filtri
+      this.filteredHouses = this.houses.filter((house) => {
+        // Verifica ogni filtro
+        for (const filter in this.filters) {
+          if (this.filters[filter] && !house.extras.includes(filter)) {
+            return false;
+          }
+        }
+        return true;
+      });
+    },
   },
 
   created() {
@@ -78,14 +91,20 @@ export default {
       Search
     </button>
   </form>
-  <div class="d-flex flex-row gap-3">
-    <div v-for="(extra, index) in this.extras" class="text-center mx-3 text-capitalize fw-bold">
+  <div class="d-flex flex-row gap-3 justify-content-center">
+    <div
+      v-for="(extra, index) in this.extras"
+      class="text-center mx-3 text-capitalize fw-bold d-flex flex-column align-items-center"
+    >
       {{ extra.name }}
-      <input :key="extra.index" id="btn" type="checkbox"/>
+      <input
+        :id="index"
+        v-model="filters[extra.name]"
+        type="checkbox"
+        @change="applyFilters()"
+      />
       <!-- will be hidden -->
-      <label
-      :style="{ backgroundColor: extra.color }"
-      for="btn"></label>
+      <label :style="{ backgroundColor: extra.color }" :for="index"></label>
       <!-- toggle, will activate checkbox -->
       <div class="plate"></div>
       <!-- animating background -->
@@ -143,7 +162,6 @@ input[type="checkbox"] {
       // transition: all 220ms cubic-bezier(0.76, 0.01, 0.15, 0.97);
     }
 
-
     &::after {
       background-color: #999;
     }
@@ -175,5 +193,4 @@ input[type="checkbox"] {
     animation: rot 10s linear infinite;
   }
 }
-
 </style>
