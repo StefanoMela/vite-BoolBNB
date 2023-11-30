@@ -135,7 +135,7 @@ h4 {
 input[type="checkbox"] {
   display: none;
 
-  /* toggle in the OFF state */
+  // toggle in the OFF state //
   ~ label {
     position: relative;
     display: block;
@@ -165,7 +165,7 @@ input[type="checkbox"] {
     }
   }
 
-  /* toggle in the ON state */
+  // toggle in the ON state /
   &:checked ~ label {
     border: 4px solid #fff;
     border-color: #afa;
@@ -182,7 +182,21 @@ input[type="checkbox"] {
     }
   }
 
-  /* This is the part that activates the background when the checkbox is checked */
+  // //
+  //   This
+  //   is
+  //   the
+  //   part
+  //   that
+  //   activates
+  //   the
+  //   background
+  //   when
+  //   the
+  //   checkbox
+  //   is
+  //   checked
+  //   */
   &:checked ~ div {
     // background: yellow;
     opacity: 1;
