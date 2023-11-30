@@ -16,6 +16,7 @@ export default {
   methods: {
     fetchDetail(uri = store.api.baseUrl + "houses/") {
       axios.get(uri + this.$route.params.id).then((response) => {
+        console.log(response);
         this.house = response.data;
       });
     },
@@ -46,7 +47,10 @@ export default {
     <div class="row">
       <div class="col-6">
         <div class="fs-4 my-3">{{ house.description }}</div>
-        <div class="fs-5"><b>Proprietario:</b> {{ house.user_id }}</div>
+        <div class="fs-5">
+          <b>Proprietario:</b>
+          {{ house.user.name }}{{ house.user.last_name }}
+        </div>
         <div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
       </div>
       <div class="col-6 mt-3 border rounded-4 p-2">
