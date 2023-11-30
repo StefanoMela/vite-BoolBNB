@@ -1,65 +1,77 @@
 <script>
-import { store } from "../data/store";
+import { store, createSearchBox } from "../data/store";
 import axios from "axios";
 import HouseCard from "../components/houses/HouseCard.vue";
 
 export default {
   data() {
     return {
-      houses: [],
       extras: [],
-
-      filters: {
-        kitchen: 0,
-        wiFi: 0,
-        garden: 0,
-        box: 0,
-        tv: 0,
-        pool: 0,
-        ac: 0,
-        seaview: 0,
-      },
+      filteredHouses: [],
 
       pagination: {
         links: null,
       },
       store,
-      searchField: {
-        
-      },
     };
+  },
+
+  computed: {
+    activeFilters() {
+      const activeExtras = [];
+      const activeAddress = store.addressSearch.address;
+
+      this.extras.forEach((extra) => {
+        if (extra.active) activeExtras.push(extra.id);
+      });
+
+      return {
+        activeExtras,
+      };
+    },
   },
 
   components: { HouseCard },
 
   methods: {
-    fetchHouses(uri = store.api.baseUrl + "search") {
-      axios.get(uri).then((response) => {
-        // console.log(response);
-        this.houses = response.data.data;
-        this.pagination.links = response.data.links;
+    fetchHouses(uri = store.api.baseUrl + "get-houses-by-filters") {
+      axios
+        .post(uri, this.activeFilters, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          this.filteredHouses = response.data.data;
+          this.pagination.links = response.data.links;
+        });
+    },
+
+    fetchExtras() {
+      axios.get(store.api.baseUrl + "extras").then((response) => {
+        this.extras = response.data.map((extra) => {
+          return {
+            ...extra,
+            active: false,
+          };
+        });
       });
     },
 
-    fetchExtras(uri = store.api.baseUrl + "extras") {
-      axios.get(uri).then((response) => {
-        // console.log(response);
-        this.extras = response.data;
-      });
-    },
-
-    postSearch() {
-      if (!this.searchField) return;
-      const data = this.searchField;
-      axios.post(store.api.baseUrl + "search", data).then((response) => {
-        console.log(response);
-      });
+    toggleExtra(extra) {
+      extra.active = !extra.active;
+      this.fetchHouses();
     },
   },
 
   created() {
     this.fetchHouses();
     this.fetchExtras();
+  },
+
+  mounted() {
+    createSearchBox();
   },
 };
 </script>
@@ -69,23 +81,27 @@ export default {
   <form class="d-flex my-5" role="search">
     <input
       class="form-control me-2"
-      type="search"
+      type="hidden"
       placeholder="Search"
       aria-label="Search"
-      v-model="searchField"
     />
-    <button @click="postSearch()" class="btn btn-outline-success" type="submit">
-      Search
-    </button>
+    <div id="address-element"></div>
+    <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
-  <div class="d-flex flex-row gap-3">
-    <div v-for="(extra, index) in this.extras" class="text-center mx-3 text-capitalize fw-bold">
+  <div class="d-flex flex-row gap-3 justify-content-center">
+    <div
+      v-for="(extra, index) in extras"
+      class="text-center mx-3 text-capitalize fw-bold d-flex flex-column align-items-center"
+    >
       {{ extra.name }}
-      <input :key="extra.index" id="btn" type="checkbox"/>
+      <input
+        :id="index"
+        :class="{ disabled: !extra.active }"
+        @click="toggleExtra(extra)"
+        type="checkbox"
+      />
       <!-- will be hidden -->
-      <label
-      :style="{ backgroundColor: extra.color }"
-      for="btn"></label>
+      <label :style="{ backgroundColor: extra.color }" :for="index"></label>
       <!-- toggle, will activate checkbox -->
       <div class="plate"></div>
       <!-- animating background -->
@@ -93,13 +109,14 @@ export default {
   </div>
   <h4>Risultati ricerca:</h4>
   <div class="row row-cols-3 g-4">
-    <HouseCard v-for="house in houses" :house="house" />
+    <HouseCard v-for="house in filteredHouses" :house="house" />
   </div>
   <nav class="my-4" aria-label="Page navigation example">
     <ul class="pagination">
       <li
         v-for="link in this.pagination.links"
-        @click="fetchCards(link.url)"
+        :key="link.label"
+        @click="fetchHouses(link.url)"
         class="page-item"
       >
         <a class="page-link" href="#" v-html="link.label"></a>
@@ -118,7 +135,7 @@ h4 {
 input[type="checkbox"] {
   display: none;
 
-  /* toggle in the OFF state */
+  // toggle in the OFF state //
   ~ label {
     position: relative;
     display: block;
@@ -143,13 +160,12 @@ input[type="checkbox"] {
       // transition: all 220ms cubic-bezier(0.76, 0.01, 0.15, 0.97);
     }
 
-
     &::after {
       background-color: #999;
     }
   }
 
-  /* toggle in the ON state */
+  // toggle in the ON state /
   &:checked ~ label {
     border: 4px solid #fff;
     border-color: #afa;
@@ -166,7 +182,21 @@ input[type="checkbox"] {
     }
   }
 
-  /* This is the part that activates the background when the checkbox is checked */
+  // //
+  //   This
+  //   is
+  //   the
+  //   part
+  //   that
+  //   activates
+  //   the
+  //   background
+  //   when
+  //   the
+  //   checkbox
+  //   is
+  //   checked
+  //   */
   &:checked ~ div {
     // background: yellow;
     opacity: 1;
@@ -175,5 +205,4 @@ input[type="checkbox"] {
     animation: rot 10s linear infinite;
   }
 }
-
 </style>

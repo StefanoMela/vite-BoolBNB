@@ -44,12 +44,16 @@ export default {
     </div>
 
     <div class="row">
-      <div class="col-6">
+      <div class="col-8">
         <div class="fs-4 my-3">{{ house.description }}</div>
-        <div class="fs-5"><b>Proprietario:</b> {{ house.user_id }}</div>
+        <div class="fs-5">
+          <b>Proprietario:</b>
+          {{ house.user && house.user.name }}
+          {{ house.user && house.user.last_name }}
+        </div>
         <div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
       </div>
-      <div class="col-6 mt-3 border rounded-4 p-2">
+      <div class="col-4 mt-3 border rounded-4 p-2">
         Mettere qui form invio messaggi
       </div>
     </div>
@@ -66,12 +70,17 @@ export default {
 
     <div class="row mt-5">
       <h3>Servizi Aggiuntivi</h3>
-      <div class="col-6 d-flex">
-        <div v-for="extra in extras">
-          <div class="mx-3">
-            {{ extra.name }}
+      <div class="col-6 d-flex mt-3">
+        <div
+          v-for="extra in extras"
+          class="d-flex flex-column align-items-center"
+        >
+          <div class=""><font-awesome-icon :icon="extra.icon_vue" /></div>
+          <div class="col-12 mx-4 text-center">
+            <span class="badge" :style="{ backgroundColor: extra.color }">{{
+              extra.name
+            }}</span>
           </div>
-          <div><font-awesome-icon icon="fa-solid fa-wind" /></div>
         </div>
       </div>
     </div>

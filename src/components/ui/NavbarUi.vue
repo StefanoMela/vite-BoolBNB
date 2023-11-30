@@ -23,6 +23,9 @@ export default {
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+          <li>
+            <a class="nav-link" href="http://localhost:5173/">Home</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="http://localhost:8000/login">Login</a>
           </li>
