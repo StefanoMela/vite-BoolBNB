@@ -1,9 +1,9 @@
 <script>
 import NavbarUi from "./components/ui/NavbarUi.vue";
-// import { RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 
 export default {
-	components: { NavbarUi },
+	components: { NavbarUi, routerView },
 };
 </script>
 
