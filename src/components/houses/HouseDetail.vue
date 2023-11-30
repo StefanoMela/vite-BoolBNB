@@ -49,7 +49,7 @@ export default {
 				<div class="fs-4 my-3">{{ house.description }}</div>
 				<div class="fs-5">
 					<b>Proprietario:</b>
-					{{ house.user.name }}{{ house.user.last_name }}
+					{{ house.user.name }} {{ house.user.last_name }}
 				</div>
 				<div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
 			</div>
