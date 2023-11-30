@@ -36,11 +36,13 @@ export default {
     <div class="row row-cols-3 g-4">
       <HouseCard v-for="house in houses" :house="house" />
     </div>
-    <nav class="my-4" aria-label="Page navigation example">
+    <nav
+    v-if="this.pagination.links[3]"
+    class="my-4" aria-label="Page navigation example">
       <ul class="pagination">
         <li
-          v-for="link in this.pagination.links"
-          @click="fetchCards(link.url)"
+        v-for="link in this.pagination.links"
+        @click="fetchCards(link.url)"
           class="page-item"
         >
           <a class="page-link" href="#" v-html="link.label"></a>

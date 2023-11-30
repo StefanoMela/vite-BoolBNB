@@ -1,7 +1,7 @@
 <script>
 import { store, createSearchBox } from "../data/store";
 import axios from "axios";
-import HouseCard from "../components/houses/HouseCard.vue";
+import HouseCard from '../components/houses/HouseCard.vue';
 
 export default {
   data() {
