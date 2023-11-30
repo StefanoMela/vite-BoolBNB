@@ -7,6 +7,7 @@ export const store = reactive({
   addressSearch: {
     longitude: "",
     latitude: "",
+    address: '',
   },
 });
 
