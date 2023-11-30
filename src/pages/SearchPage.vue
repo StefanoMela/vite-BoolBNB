@@ -1,76 +1,67 @@
 <script>
 import { store, createSearchBox } from "../data/store";
 import axios from "axios";
-import HouseCard from "../components/houses/HouseCard.vue";
+import HouseCard from '../components/houses/HouseCard.vue';
 
 export default {
   data() {
     return {
-      houses: [],
       extras: [],
-
-      filters: {
-        cucina: false,
-        "wi-fi": false,
-        giardino: false,
-        "posto auto": false,
-        tv: false,
-        piscina: false,
-        "aria condizionata": false,
-        "vista mare": false,
-      },
-
       filteredHouses: [],
 
       pagination: {
         links: null,
       },
       store,
-      searchField: {},
     };
+  },
+
+  computed: {
+    activeFilters() {
+      const activeExtras = [];
+      const activeAddress = store.addressSearch.address;
+
+      this.extras.forEach((extra) => {
+        if (extra.active) activeExtras.push(extra.id);
+      });
+
+      return {
+        activeExtras,
+      };
+    },
   },
 
   components: { HouseCard },
 
   methods: {
-    fetchHouses(uri = store.api.baseUrl + "search") {
-      axios.get(uri).then((response) => {
-        console.log(response);
-        this.houses = response.data.data;
-        this.pagination.links = response.data.links;
-      });
-    },
-
-    fetchExtras(uri = store.api.baseUrl + "extras") {
-      axios.get(uri).then((response) => {
-        // console.log(response);
-        this.extras = response.data;
-      });
-    },
-
-    postSearch() {
-      // if (!store.addressSearch) return;
-      const data = store.addressSearch;
+    fetchHouses(uri = store.api.baseUrl + "get-houses-by-filters") {
       axios
-        .get(store.api.baseUrl + "search/coordinate", {
-          params: store.addressSearch,
+        .post(uri, this.activeFilters, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((response) => {
           console.log(response);
+          this.filteredHouses = response.data.data;
+          this.pagination.links = response.data.links;
         });
     },
 
-    applyFilters() {
-      // Filtra le case in base allo stato dei filtri
-      this.filteredHouses = this.houses.filter((house) => {
-        // Verifica ogni filtro
-        for (const filter in this.filters) {
-          if (this.filters[filter] && !house.extras.includes(filter)) {
-            return false;
-          }
-        }
-        return true;
+    fetchExtras() {
+      axios.get(store.api.baseUrl + "extras").then((response) => {
+        this.extras = response.data.map((extra) => {
+          return {
+            ...extra,
+            active: false,
+          };
+        });
       });
+    },
+
+    toggleExtra(extra) {
+      extra.active = !extra.active;
+      this.fetchHouses();
     },
   },
 
@@ -93,24 +84,21 @@ export default {
       type="hidden"
       placeholder="Search"
       aria-label="Search"
-      v-model="searchField"
     />
     <div id="address-element"></div>
-    <button @click="postSearch()" class="btn btn-outline-success" type="submit">
-      Search
-    </button>
+    <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
   <div class="d-flex flex-row gap-3 justify-content-center">
     <div
-      v-for="(extra, index) in this.extras"
+      v-for="(extra, index) in extras"
       class="text-center mx-3 text-capitalize fw-bold d-flex flex-column align-items-center"
     >
       {{ extra.name }}
       <input
         :id="index"
-        v-model="filters[extra.name]"
+        :class="{ disabled: !extra.active }"
+        @click="toggleExtra(extra)"
         type="checkbox"
-        @change="applyFilters()"
       />
       <!-- will be hidden -->
       <label :style="{ backgroundColor: extra.color }" :for="index"></label>
@@ -121,12 +109,13 @@ export default {
   </div>
   <h4>Risultati ricerca:</h4>
   <div class="row row-cols-3 g-4">
-    <HouseCard v-for="house in houses" :house="house" />
+    <HouseCard v-for="house in filteredHouses" :house="house" />
   </div>
   <nav class="my-4" aria-label="Page navigation example">
     <ul class="pagination">
       <li
         v-for="link in this.pagination.links"
+        :key="link.label"
         @click="fetchHouses(link.url)"
         class="page-item"
       >
