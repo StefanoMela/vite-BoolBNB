@@ -88,6 +88,26 @@ export default {
 </script>
 
 <template>
+  <div class="container-fluid filter-container">
+    <div class="icons-container">
+      <div
+        v-for="(extra, index) in extras"
+        class="icons-wrapper"
+        :style="{ color: extra.active ? '#FF385C' : '' }"
+      >
+        <font-awesome-icon
+          class="icons"
+          :icon="extra.icon_vue"
+          :id="index"
+          :class="{ disabled: !extra.active }"
+          :style="{ color: extra.active ? '#FF385C' : '' }"
+          @click="toggleExtra(extra)"
+          type="checkbox"
+        />
+        {{ extra.name }}
+      </div>
+    </div>
+  </div>
   <h4>Cerca qui la tua casa dei sogni!</h4>
   <div class="search-container">
     <div class="address-container">
@@ -122,25 +142,6 @@ export default {
       Search
     </button>
   </div>
-  <div class="d-flex flex-row gap-3 justify-content-center">
-    <div
-      v-for="(extra, index) in extras"
-      class="text-center mx-3 text-capitalize fw-bold d-flex flex-column align-items-center"
-    >
-      {{ extra.name }}
-      <input
-        :id="index"
-        :class="{ disabled: !extra.active }"
-        @click="toggleExtra(extra)"
-        type="checkbox"
-      />
-      <!-- will be hidden -->
-      <label :style="{ backgroundColor: extra.color }" :for="index"></label>
-      <!-- toggle, will activate checkbox -->
-      <div class="plate"></div>
-      <!-- animating background -->
-    </div>
-  </div>
   <h4>Risultati ricerca:</h4>
   <div class="row row-cols-3 g-4">
     <HouseCard v-for="house in filteredHouses" :house="house" />
@@ -166,64 +167,31 @@ h4 {
   margin-bottom: 3rem;
 }
 
-input[type="checkbox"] {
-  display: none;
 
-  // toggle in the OFF state //
-  ~ label {
-    position: relative;
-    display: block;
-    width: 72px;
-    height: 32.5px;
-    border-radius: 40px;
-    border: 4px solid #999;
-    // transition: transform 200ms cubic-bezier(0.41, -0.01, 0.63, 1.09);
+.icons-container{
+
+  display: flex;
+
+  .icons-wrapper {
+  text-align: center;
+  text-transform: capitalize;
+  margin-inline: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .icons {
+    font-size: 1.5rem;
+    margin-inline: 2.5rem;
+
     cursor: pointer;
-    background: rgba(black, 0.3);
-    margin-top: 1rem;
-
-    &::before,
-    &::after {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 20px;
-      height: 20px;
-      border-radius: 36px;
-      content: "";
-      // transition: all 220ms cubic-bezier(0.76, 0.01, 0.15, 0.97);
-    }
-
-    &::after {
-      background-color: #999;
-    }
   }
+}
+}
 
-  // toggle in the ON state /
-  &:checked ~ label {
-    border: 4px solid #fff;
-    border-color: #afa;
-    background: rgba(green, 0.6);
-
-    &::before {
-      width: 60px;
-    }
-
-    &::after {
-      transform: translateX(40px);
-      background-color: #4c4;
-      box-shadow: -4px 0 4px rgba(black, 0.1);
-    }
-  }
-
-  //  This is the part that activates the background when the checkbox is checked
-
-  &:checked ~ div {
-    // background: yellow;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 240ms, visibility 0s;
-    animation: rot 10s linear infinite;
-  }
+.filter-container {
+  top: 100;
+  left: 0;
+  padding: 1rem;
 }
 </style>
