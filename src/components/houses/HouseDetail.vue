@@ -50,48 +50,46 @@ export default {
       </div>
     </div>
 
-      <div class="d-flex justify-content-between">
-        <div class="">
-          <div class="fs-4 my-3 description text-truncate">
-            <p class="description">{{ house.description }}</p>
-          </div>
-          <div class="fs-5">
-            <b>Proprietario:</b>
-            {{ house.user && house.user.name }}
-            {{ house.user && house.user.last_name }}
-          </div>
-          <div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
+    <div class="d-flex justify-content-between">
+      <div class="">
+        <div class="fs-4 my-3 description text-truncate">
+          <p class="description">{{ house.description }}</p>
         </div>
-      </div>
-
-      <div class="row mt-5">
-        <h3>Dettaglio appartamento</h3>
-        <div class="col-6">
-          <div class="fs-5"><b>Numero di stanze:</b> {{ house.rooms }}</div>
-          <div class="fs-5"><b>Metri quadri:</b> {{ house.sq_meters }}</div>
-          <div class="fs-5"><b>Numero di letti:</b> {{ house.beds }}</div>
-          <div class="fs-5"><b>Numero di bagni:</b> {{ house.bathrooms }}</div>
+        <div class="fs-5">
+          <b>Proprietario:</b>
+          {{ house.user && house.user.name }}
+          {{ house.user && house.user.last_name }}
         </div>
+        <div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
       </div>
+    </div>
 
-      <div class="row my-5">
-        <h3>Servizi Aggiuntivi</h3>
-        <div class="col-6 d-flex mt-3">
-          <div
-            v-for="extra in extras"
-            class="d-flex flex-column align-items-center"
-          >
-            <div class=""><font-awesome-icon :icon="extra.icon_vue" /></div>
-            <div class="col-12 mx-4 text-center">
-              <span class="badge" :style="{ backgroundColor: extra.color }">{{
-                extra.name
-              }}</span>
-            </div>
+    <div class="row mt-5">
+      <h3>Dettaglio appartamento</h3>
+      <div class="col-6">
+        <div class="fs-5"><b>Numero di stanze:</b> {{ house.rooms }}</div>
+        <div class="fs-5"><b>Metri quadri:</b> {{ house.sq_meters }}</div>
+        <div class="fs-5"><b>Numero di letti:</b> {{ house.beds }}</div>
+        <div class="fs-5"><b>Numero di bagni:</b> {{ house.bathrooms }}</div>
+      </div>
+    </div>
+
+    <div class="row my-5">
+      <h3>Servizi Aggiuntivi</h3>
+      <div class="col-6 d-flex mt-3">
+        <div
+          v-for="extra in extras"
+          class="d-flex flex-column align-items-center"
+        >
+          <div class=""><font-awesome-icon :icon="extra.icon_vue" /></div>
+          <div class="col-12 mx-4 text-center">
+            <span class="badge" :style="{ backgroundColor: extra.color }">{{
+              extra.name
+            }}</span>
           </div>
         </div>
       </div>
     </div>
-    <div></div>
   </div>
 
   <div class="mt-3 border rounded-4 p-4 m-2">
