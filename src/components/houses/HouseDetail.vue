@@ -43,7 +43,6 @@ export default {
       <div class="col-6">
         <img :src="house.cover_image" alt="" class="img-fluid" />
       </div>
-      <div><p>prova</p></div>
     </div>
 
     <div class="row">
