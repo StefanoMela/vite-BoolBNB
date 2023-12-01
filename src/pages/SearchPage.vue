@@ -1,5 +1,5 @@
 <script>
-import { store, createSearchBox } from "../data/store";
+import { store } from "../data/store";
 import axios from "axios";
 import HouseCard from "../components/houses/HouseCard.vue";
 
@@ -42,7 +42,6 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response);
           this.filteredHouses = response.data.data;
           this.pagination.links = response.data.links;
         });
@@ -69,8 +68,6 @@ export default {
     this.fetchHouses();
     this.fetchExtras();
   },
-
-  mounted() {},
 };
 </script>
 
