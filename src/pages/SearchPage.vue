@@ -204,21 +204,8 @@ input[type="checkbox"] {
     }
   }
 
-  // //
-  //   This
-  //   is
-  //   the
-  //   part
-  //   that
-  //   activates
-  //   the
-  //   background
-  //   when
-  //   the
-  //   checkbox
-  //   is
-  //   checked
-  //   */
+//  This is the part that activates the background when the checkbox is checked
+
   &:checked ~ div {
     // background: yellow;
     opacity: 1;

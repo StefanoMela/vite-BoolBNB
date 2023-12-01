@@ -1,5 +1,6 @@
 <script>
 import HouseCard from "./HouseCard.vue";
+import MessageForm from "./MessageForm.vue";
 import axios from "axios";
 import { store } from "../../data/store";
 
@@ -11,7 +12,7 @@ export default {
     };
   },
 
-  components: { HouseCard },
+  components: { HouseCard, MessageForm },
 
   methods: {
     fetchDetail(uri = store.api.baseUrl + "houses/") {
@@ -44,6 +45,10 @@ export default {
           <img :src="house.cover_image" alt="" class="img-fluid rounded-4" />
         </div>
       </div>
+      <div class="col-4 mt-3 border rounded-4 p-2">
+        <MessageForm :houseId="house.id" />
+      </div>
+    </div>
 
       <div class="d-flex justify-content-between">
         <div class="">
