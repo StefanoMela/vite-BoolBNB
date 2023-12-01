@@ -24,7 +24,7 @@ export default {
         />
 
         <router-link :to="{ name: 'search' }">
-          <button @click="fetchHouses()" class="btn" type="button">
+          <button @click="fetchHouses()" class="btn btn-success" type="button">
             Search
           </button>
         </router-link>
@@ -67,7 +67,6 @@ input {
 }
 
 .btn {
-  background-color: green;
   border: none;
   color: white;
   cursor: pointer;

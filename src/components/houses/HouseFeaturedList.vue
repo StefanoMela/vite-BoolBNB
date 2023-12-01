@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       houses: [],
+      extras: [],
 
       pagination: {
         links: null,
@@ -19,9 +20,9 @@ export default {
   methods: {
     fetchCards(uri = store.api.baseUrl + "houses") {
       axios.get(uri).then((response) => {
-        console.log(response);
         this.houses = response.data.data;
         this.pagination.links = response.data.links;
+        console.log(response);
       });
     },
   },
@@ -36,10 +37,7 @@ export default {
     <div class="row row-cols-3 g-4">
       <HouseCard v-for="house in houses" :house="house" />
     </div>
-    <nav
-      class="my-4"
-      aria-label="Page navigation example"
-    >
+    <nav class="my-4" aria-label="Page navigation example">
       <ul class="pagination">
         <li
           v-for="link in this.pagination.links"
