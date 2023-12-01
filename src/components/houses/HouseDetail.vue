@@ -1,5 +1,6 @@
 <script>
 import HouseCard from "./HouseCard.vue";
+import MessageForm from "./MessageForm.vue";
 import axios from "axios";
 import { store } from "../../data/store";
 
@@ -11,7 +12,7 @@ export default {
     };
   },
 
-  components: { HouseCard },
+  components: { HouseCard, MessageForm },
 
   methods: {
     fetchDetail(uri = store.api.baseUrl + "houses/") {
@@ -56,7 +57,7 @@ export default {
         <div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
       </div>
       <div class="col-4 mt-3 border rounded-4 p-2">
-        Mettere qui form invio messaggi
+        <MessageForm :houseId="house.id" />
       </div>
     </div>
 
