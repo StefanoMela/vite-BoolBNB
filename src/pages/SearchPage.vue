@@ -1,7 +1,7 @@
 <script>
 import { store, createSearchBox } from "../data/store";
 import axios from "axios";
-import HouseCard from '../components/houses/HouseCard.vue';
+import HouseCard from "../components/houses/HouseCard.vue";
 
 export default {
   data() {
@@ -13,20 +13,26 @@ export default {
         links: null,
       },
       store,
+      searchAddress: "",
+      searchRange: 0,
     };
   },
 
   computed: {
     activeFilters() {
-      const activeExtras = [];
-      const activeAddress = store.addressSearch.address;
+      const activeFilters = {
+        activeExtras: [],
+        activeAddress: this.searchAddress,
+        activeRange: this.searchRange,
+      };
+      activeFilters.activeAddress = this.searchAddress;
 
       this.extras.forEach((extra) => {
-        if (extra.active) activeExtras.push(extra.id);
+        if (extra.active) activeFilters.activeExtras.push(extra.id);
       });
 
       return {
-        activeExtras,
+        activeFilters,
       };
     },
   },
@@ -35,6 +41,7 @@ export default {
 
   methods: {
     fetchHouses(uri = store.api.baseUrl + "get-houses-by-filters") {
+      console.log(this.activeFilters);
       axios
         .post(uri, this.activeFilters, {
           headers: {
@@ -71,23 +78,43 @@ export default {
   },
 
   mounted() {
-    createSearchBox();
+    // createSearchBox();
   },
 };
 </script>
 
 <template>
   <h4>Cerca qui la tua casa dei sogni!</h4>
-  <form class="d-flex my-5" role="search">
+  <!-- <form class="d-flex my-5" role="search"> -->
+  <div>
+    <label for="address">Address</label>
     <input
-      class="form-control me-2"
-      type="hidden"
-      placeholder="Search"
-      aria-label="Search"
+      type="text"
+      name="address"
+      id="address"
+      class="mt-2"
+      v-model="searchAddress"
     />
-    <div id="address-element"></div>
-    <button class="btn btn-outline-success" type="submit">Search</button>
-  </form>
+  </div>
+  <!-- <div id="address-element"></div> -->
+  <div>
+    <label for="radius" class="form-label">Radius</label>
+    <input
+      type="range"
+      class="form-range w-50 px-2"
+      id="radius"
+      min="20"
+      max="100"
+      step="5"
+      v-model="searchRange"
+      @click.left="fetchHouses()"
+    />
+    <span>{{ this.searchRange }} km</span>
+  </div>
+  <button @click="fetchHouses()" class="btn btn-outline-success" type="submit">
+    Search
+  </button>
+  <!-- </form> -->
   <div class="d-flex flex-row gap-3 justify-content-center">
     <div
       v-for="(extra, index) in extras"
