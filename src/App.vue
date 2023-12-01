@@ -10,7 +10,7 @@ export default {
 <template>
   <NavbarUi />
   <div class="container">
-    <router-view></router-view>
+    <RouterView />
   </div>
 </template>
 
