@@ -1,17 +1,17 @@
 <script>
 import NavbarUi from "./components/ui/NavbarUi.vue";
-// import { RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 
 export default {
-	components: { NavbarUi },
+  components: { NavbarUi, RouterView },
 };
 </script>
 
 <template>
-	<NavbarUi />
-	<div class="container">
-		<router-view></router-view>
-	</div>
+  <NavbarUi />
+  <div class="container">
+    <RouterView />
+  </div>
 </template>
 
 <style></style>
