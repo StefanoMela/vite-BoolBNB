@@ -7,14 +7,20 @@ export default {
   data() {
     return {
       extras: [],
+
+      // Filters
+      searchAddress: "",
+      searchRange: 20,
+      beds: "",
+      baths: "",
+      rooms: "",
+
+      // Filtered Results
       filteredHouses: [],
 
-      pagination: {
-        links: null,
-      },
+      pagination: { links: null },
+
       store,
-      searchAddress: "",
-      searchRange: 0,
     };
   },
 
@@ -24,6 +30,9 @@ export default {
         activeExtras: [],
         activeAddress: this.searchAddress,
         activeRange: this.searchRange,
+        // beds: this.,
+        // baths: this.,
+        // rooms: this.,
       };
       activeFilters.activeAddress = this.searchAddress;
 
@@ -80,36 +89,39 @@ export default {
 
 <template>
   <h4>Cerca qui la tua casa dei sogni!</h4>
-  <!-- <form class="d-flex my-5" role="search"> -->
-  <div>
-    <label for="address">Address</label>
-    <input
-      type="text"
-      name="address"
-      id="address"
-      class="mt-2"
-      v-model="searchAddress"
-    />
+  <div class="search-container">
+    <div class="address-container">
+      <label for="address">Address</label>
+      <input
+        type="text"
+        name="address"
+        id="address"
+        class="mt-2"
+        v-model="searchAddress"
+      />
+    </div>
+    <div class="radius-container my-4">
+      <label for="radius" class="form-label">Radius</label>
+      <input
+        type="range"
+        class="form-range px-2"
+        id="radius"
+        min="20"
+        max="100"
+        step="5"
+        v-model="searchRange"
+        @click.left="fetchHouses()"
+      />
+      <span> {{ this.searchRange ? this.searchRange : 20 }} KM</span>
+    </div>
+    <button
+      @click="fetchHouses()"
+      class="btn btn-outline-success"
+      type="submit"
+    >
+      Search
+    </button>
   </div>
-  <!-- <div id="address-element"></div> -->
-  <div>
-    <label for="radius" class="form-label">Radius</label>
-    <input
-      type="range"
-      class="form-range w-50 px-2"
-      id="radius"
-      min="20"
-      max="100"
-      step="5"
-      v-model="searchRange"
-      @click.left="fetchHouses()"
-    />
-    <span>{{ this.searchRange }} km</span>
-  </div>
-  <button @click="fetchHouses()" class="btn btn-outline-success" type="submit">
-    Search
-  </button>
-  <!-- </form> -->
   <div class="d-flex flex-row gap-3 justify-content-center">
     <div
       v-for="(extra, index) in extras"
@@ -204,7 +216,7 @@ input[type="checkbox"] {
     }
   }
 
-//  This is the part that activates the background when the checkbox is checked
+  //  This is the part that activates the background when the checkbox is checked
 
   &:checked ~ div {
     // background: yellow;
