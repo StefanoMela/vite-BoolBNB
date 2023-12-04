@@ -129,9 +129,9 @@ export default {
 <template>
   <h4>Cerca qui la tua casa dei sogni!</h4>
   <!-- <form class="d-flex my-5" role="search"> -->
-  <div>
+  <div class="search-container">
     <label for="address">Address</label>
-    <div id="address-element"></div>
+    <div id="address-element" class="search-box"></div>
     <!-- <input
       type="text"
       name="address"
@@ -200,6 +200,14 @@ h4 {
   text-align: center;
   margin-top: 3rem;
   margin-bottom: 3rem;
+}
+
+.search-container {
+  display: flex;
+
+  .search-box {
+    width: calc(100% / 3);
+  }
 }
 
 input[type="checkbox"] {
