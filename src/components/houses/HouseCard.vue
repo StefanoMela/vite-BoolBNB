@@ -45,7 +45,7 @@ export default {
               <font-awesome-icon icon="fa-solid fa-couch" /> {{ house.rooms }}
             </li>
             <li class="mx-2 extras">
-              <font-awesome-icon :icon="['fas', 'toilet']" />
+              <font-awesome-icon :icon="['fas', 'bath']" />
               {{ house.bathrooms }}
             </li>
           </ul>
