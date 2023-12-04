@@ -2,6 +2,7 @@
 import { store } from "../data/store";
 import axios from "axios";
 import HouseCard from "../components/houses/HouseCard.vue";
+import SearchBox from "../components/ui/SerchBoxUi.vue";
 
 export default {
   data() {
@@ -56,7 +57,7 @@ export default {
     },
   },
 
-  components: { HouseCard },
+  components: { HouseCard, SearchBox },
 
   methods: {
     // Chiamata per appartamenti filtrati
@@ -92,60 +93,11 @@ export default {
       extra.active = !extra.active;
       this.fetchHouses();
     },
-
-    // Creazione della barra di ricerca
-    createSearchBox() {
-      // Inserisco le opzioni del construttore di SearchBox
-      var options = {
-        // Opzioni di ricerca
-        searchOptions: {
-          key: "5uNY3BSE9gSMXl2atJSMJJrZAbfvhazZ",
-          language: "it-IT",
-          limit: 5,
-        },
-        // Autocomplete
-        autocompleteOptions: {
-          key: "5uNY3BSE9gSMXl2atJSMJJrZAbfvhazZ",
-          language: "it-IT",
-        },
-        // placeholder
-        placeholder: "Es. Via Roma...",
-      };
-      // Prendo un elemento
-      let addressElement = document.getElementById("address-element");
-      // Elemento SearchBox
-      let ttSearchBox = new tt.plugins.SearchBox(tt.services, options);
-      // SearchBox in HTML
-      let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
-      // inserisco il searchBox HTML dentro l'elemento selezionato
-      addressElement.append(searchBoxHTML);
-
-      // Prendo l'input della searchBox
-      let addressInput = this.searchAddress;
-
-      // Istanzo gli attributi sul input address
-      // addressInput.setAttribute("id", "address");
-
-      // Chiamo l'evento tomtom.searchbox.resultselected
-      ttSearchBox.on("tomtom.searchbox.resultselected", function (data) {
-        console.log(data);
-        // Inserisco il valore dell'indirizzo dall'oggetto data in una variabile
-        let addressVal = data.data.result.address.freeformAddress;
-
-        // Inserisco il valore dell'indirizzo dentro il valore dell'input nascosto
-        store.addressSearch.address = addressVal;
-        console.log(store.addressSearch.address);
-      });
-    },
   },
 
   created() {
     this.fetchHouses();
     this.fetchExtras();
-  },
-
-  mounted() {
-    this.createSearchBox();
   },
 };
 </script>
@@ -226,17 +178,7 @@ export default {
   <h4>Cerca qui la tua casa dei sogni!</h4>
 
   <!-- SearchBox -->
-  <div class="search-container">
-    <label for="address">Address</label>
-    <div id="address-element" class="search-box"></div>
-    <!-- <input
-      type="text"
-      name="address"
-      id="address"
-      class="mt-2"
-      v-model="searchAddress"
-    /> -->
-  </div>
+  <SearchBox />
 
   <!-- Raggio -->
   <div>
