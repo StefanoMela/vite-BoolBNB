@@ -11,9 +11,9 @@ export default {
       // Filters
       searchAddress: "",
       searchRange: 20,
-      beds: "",
-      baths: "",
       rooms: "",
+      beds: "",
+      bathrooms: "",
 
       // Filtered Results
       filteredHouses: [],
@@ -30,9 +30,9 @@ export default {
         activeExtras: [],
         activeAddress: this.searchAddress,
         activeRange: this.searchRange,
-        // beds: this.,
-        // baths: this.,
-        // rooms: this.,
+        beds: this.beds === "5+" ? "5" : this.beds,
+        bathrooms: this.bathrooms === "5+" ? "5" : this.bathrooms,
+        rooms: this.rooms === "5+" ? "5" : this.rooms,
       };
       activeFilters.activeAddress = this.searchAddress;
 
@@ -44,6 +44,16 @@ export default {
         activeFilters,
       };
     },
+
+    bedIconColor (){
+      return this.beds ? "#FF385C" : "";
+    },
+    bathIconColor (){
+      return this.bathrooms ? "#FF385C" : "";
+    },
+    roomIconColor (){
+      return this.rooms ? "#FF385C" : "";
+    }
   },
 
   components: { HouseCard },
@@ -106,6 +116,51 @@ export default {
         />
         {{ extra.name }}
       </div>
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-bath"
+          size="2xl"
+          :style="{color: bathIconColor}"
+        />
+        <label :style="{color: bathIconColor}" for="bathrooms">Bagni</label>
+        <select v-model="bathrooms" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-couch"
+          size="2xl"
+          :style="{color: roomIconColor}"
+        />
+        <label :style="{color: roomIconColor}" for="rooms">Stanze</label>
+        <select v-model="rooms" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-bed"
+          size="2xl"
+          :style="{color: bedIconColor}"
+        />
+        <label :style="{color: bedIconColor}" for="beds">Letti</label>
+        <select v-model="beds" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
     </div>
   </div>
   <h4>Cerca qui la tua casa dei sogni!</h4>
@@ -166,32 +221,26 @@ h4 {
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
-
-
-.icons-container{
-
+.icons-container {
   display: flex;
 
   .icons-wrapper {
-  text-align: center;
-  text-transform: capitalize;
-  margin-inline: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    text-align: center;
+    text-transform: capitalize;
+    margin-inline: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  .icons {
-    font-size: 1.5rem;
-    margin-inline: 2.5rem;
+    .icons {
+      font-size: 1.5rem;
 
-    cursor: pointer;
+      cursor: pointer;
+    }
   }
 }
-}
-
 .filter-container {
   top: 100;
-  left: 0;
   padding: 1rem;
 }
 </style>
