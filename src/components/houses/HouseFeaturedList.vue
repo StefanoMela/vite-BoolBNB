@@ -22,7 +22,7 @@ export default {
       axios.get(uri).then((response) => {
         this.houses = response.data.data;
         this.pagination.links = response.data.links;
-        console.log(response);
+        console.log(response.data.data);
       });
     },
   },
