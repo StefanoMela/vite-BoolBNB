@@ -37,7 +37,11 @@ export default {
     <div class="row row-cols-3 g-4">
       <HouseCard v-for="house in houses" :house="house" />
     </div>
-    <nav class="my-4" aria-label="Page navigation example">
+    <nav
+      class="my-4"
+      aria-label="Page navigation example"
+      v-if="pagination.links && pagination.links.length > 3"
+    >
       <ul class="pagination">
         <li
           v-for="link in this.pagination.links"

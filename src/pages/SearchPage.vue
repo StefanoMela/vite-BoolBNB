@@ -72,6 +72,7 @@ export default {
           this.filteredHouses = response.data.data;
           this.pagination.links = response.data.links;
           console.log(response);
+          console.log(response.data.links);
         });
     },
 
@@ -267,7 +268,11 @@ export default {
   </div>
 
   <!-- Paginazione -->
-  <nav class="my-4" aria-label="Page navigation example">
+  <nav
+    v-if="pagination.links && pagination.links.length > 3"
+    class="my-4"
+    aria-label="Page navigation example"
+  >
     <ul class="pagination">
       <li
         v-for="link in this.pagination.links"
