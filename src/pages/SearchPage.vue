@@ -25,6 +25,7 @@ export default {
   },
 
   computed: {
+    // Filtri attivi
     activeFilters() {
       const activeFilters = {
         activeExtras: [],
@@ -58,6 +59,7 @@ export default {
   components: { HouseCard },
 
   methods: {
+    // Chiamata per appartamenti filtrati
     fetchHouses(uri = store.api.baseUrl + "get-houses-by-filters") {
       console.log(this.activeFilters);
       axios
@@ -73,6 +75,7 @@ export default {
         });
     },
 
+    // Chiamata extras
     fetchExtras() {
       axios.get(store.api.baseUrl + "extras").then((response) => {
         this.extras = response.data.map((extra) => {
@@ -84,11 +87,13 @@ export default {
       });
     },
 
+    // Attivazione extra e chiamata della casa filtrata
     toggleExtra(extra) {
       extra.active = !extra.active;
       this.fetchHouses();
     },
 
+    // Creazione della barra di ricerca
     createSearchBox() {
       // Inserisco le opzioni del construttore di SearchBox
       var options = {
@@ -146,8 +151,10 @@ export default {
 </script>
 
 <template>
+  <!-- Filtri  -->
   <div class="container-fluid filter-container">
     <div class="icons-container">
+      <!-- Filtri service extra -->
       <div
         v-for="(extra, index) in extras"
         class="icons-wrapper"
@@ -164,6 +171,7 @@ export default {
         />
         {{ extra.name }}
       </div>
+      <!-- Filtro bagni -->
       <div class="icons-wrapper">
         <font-awesome-icon
           class="icons mx-4"
@@ -179,6 +187,7 @@ export default {
           <option value="5+">5+</option>
         </select>
       </div>
+      <!-- Filtro camere -->
       <div class="icons-wrapper">
         <font-awesome-icon
           class="icons mx-4"
@@ -194,6 +203,7 @@ export default {
           <option value="5+">5+</option>
         </select>
       </div>
+      <!-- Filtro letti -->
       <div class="icons-wrapper">
         <font-awesome-icon
           class="icons mx-4"
@@ -211,8 +221,11 @@ export default {
       </div>
     </div>
   </div>
+
+  <!-- Titolo -->
   <h4>Cerca qui la tua casa dei sogni!</h4>
-  <!-- <form class="d-flex my-5" role="search"> -->
+
+  <!-- SearchBox -->
   <div class="search-container">
     <label for="address">Address</label>
     <div id="address-element" class="search-box"></div>
@@ -224,6 +237,8 @@ export default {
       v-model="searchAddress"
     /> -->
   </div>
+
+  <!-- Raggio -->
   <div>
     <label for="radius" class="form-label">Radius</label>
     <input
@@ -238,33 +253,20 @@ export default {
     />
     <span> {{ this.searchRange ? this.searchRange : 20 }} KM</span>
   </div>
+  <!-- Bottone Cerca -->
   <button @click="fetchHouses()" class="btn btn-outline-success" type="submit">
     Search
   </button>
-  <!-- </form> -->
-  <div class="d-flex flex-row gap-3 justify-content-center">
-    <div
-      v-for="(extra, index) in extras"
-      class="text-center mx-3 text-capitalize fw-bold d-flex flex-column align-items-center"
-    >
-      {{ extra.name }}
-      <input
-        :id="index"
-        :class="{ disabled: !extra.active }"
-        @click="toggleExtra(extra)"
-        type="checkbox"
-      />
-      <!-- will be hidden -->
-      <label :style="{ backgroundColor: extra.color }" :for="index"></label>
-      <!-- toggle, will activate checkbox -->
-      <div class="plate"></div>
-      <!-- animating background -->
-    </div>
-  </div>
+
+  <!-- Risultati -->
   <h4>Risultati ricerca:</h4>
+
+  <!-- Griglia card appartamenti -->
   <div class="row row-cols-3 g-4">
     <HouseCard v-for="house in filteredHouses" :house="house" />
   </div>
+
+  <!-- Paginazione -->
   <nav class="my-4" aria-label="Page navigation example">
     <ul class="pagination">
       <li
@@ -306,13 +308,13 @@ h4 {
 .filter-container {
   top: 100;
   padding: 1rem;
+}
+.search-container {
+  display: flex;
+  align-items: center;
 
-  .search-container {
-    display: flex;
-
-    .search-box {
-      width: calc(100% / 3);
-    }
+  .search-box {
+    width: calc(100% / 3);
   }
 }
 </style>
