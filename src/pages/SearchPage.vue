@@ -7,14 +7,20 @@ export default {
   data() {
     return {
       extras: [],
+
+      // Filters
+      searchAddress: "",
+      searchRange: 20,
+      rooms: "",
+      beds: "",
+      bathrooms: "",
+
+      // Filtered Results
       filteredHouses: [],
 
-      pagination: {
-        links: null,
-      },
+      pagination: { links: null },
+
       store,
-      searchAddress: "",
-      searchRange: 0,
     };
   },
 
@@ -24,6 +30,9 @@ export default {
         activeExtras: [],
         activeAddress: store.addressSearch.address,
         activeRange: this.searchRange,
+        beds: this.beds === "5+" ? "5" : this.beds,
+        bathrooms: this.bathrooms === "5+" ? "5" : this.bathrooms,
+        rooms: this.rooms === "5+" ? "5" : this.rooms,
       };
 
       this.extras.forEach((extra) => {
@@ -33,6 +42,16 @@ export default {
       return {
         activeFilters,
       };
+    },
+
+    bedIconColor() {
+      return this.beds ? "#FF385C" : "";
+    },
+    bathIconColor() {
+      return this.bathrooms ? "#FF385C" : "";
+    },
+    roomIconColor() {
+      return this.rooms ? "#FF385C" : "";
     },
   },
 
@@ -127,6 +146,71 @@ export default {
 </script>
 
 <template>
+  <div class="container-fluid filter-container">
+    <div class="icons-container">
+      <div
+        v-for="(extra, index) in extras"
+        class="icons-wrapper"
+        :style="{ color: extra.active ? '#FF385C' : '' }"
+      >
+        <font-awesome-icon
+          class="icons"
+          :icon="extra.icon_vue"
+          :id="index"
+          :class="{ disabled: !extra.active }"
+          :style="{ color: extra.active ? '#FF385C' : '' }"
+          @click="toggleExtra(extra)"
+          type="checkbox"
+        />
+        {{ extra.name }}
+      </div>
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-bath"
+          size="2xl"
+          :style="{ color: bathIconColor }"
+        />
+        <label :style="{ color: bathIconColor }" for="bathrooms">Bagni</label>
+        <select v-model="bathrooms" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-couch"
+          size="2xl"
+          :style="{ color: roomIconColor }"
+        />
+        <label :style="{ color: roomIconColor }" for="rooms">Stanze</label>
+        <select v-model="rooms" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-bed"
+          size="2xl"
+          :style="{ color: bedIconColor }"
+        />
+        <label :style="{ color: bedIconColor }" for="beds">Letti</label>
+        <select v-model="beds" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+    </div>
+  </div>
   <h4>Cerca qui la tua casa dei sogni!</h4>
   <!-- <form class="d-flex my-5" role="search"> -->
   <div class="search-container">
@@ -152,7 +236,7 @@ export default {
       v-model="searchRange"
       @click.left="fetchHouses()"
     />
-    <span>{{ this.searchRange }} km</span>
+    <span> {{ this.searchRange ? this.searchRange : 20 }} KM</span>
   </div>
   <button @click="fetchHouses()" class="btn btn-outline-success" type="submit">
     Search
@@ -201,73 +285,34 @@ h4 {
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
-
-.search-container {
+.icons-container {
   display: flex;
 
-  .search-box {
-    width: calc(100% / 3);
+  .icons-wrapper {
+    text-align: center;
+    text-transform: capitalize;
+    margin-inline: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .icons {
+      font-size: 1.5rem;
+
+      cursor: pointer;
+    }
   }
 }
+.filter-container {
+  top: 100;
+  padding: 1rem;
 
-input[type="checkbox"] {
-  display: none;
+  .search-container {
+    display: flex;
 
-  // toggle in the OFF state //
-  ~ label {
-    position: relative;
-    display: block;
-    width: 72px;
-    height: 32.5px;
-    border-radius: 40px;
-    border: 4px solid #999;
-    // transition: transform 200ms cubic-bezier(0.41, -0.01, 0.63, 1.09);
-    cursor: pointer;
-    background: rgba(black, 0.3);
-    margin-top: 1rem;
-
-    &::before,
-    &::after {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 20px;
-      height: 20px;
-      border-radius: 36px;
-      content: "";
-      // transition: all 220ms cubic-bezier(0.76, 0.01, 0.15, 0.97);
+    .search-box {
+      width: calc(100% / 3);
     }
-
-    &::after {
-      background-color: #999;
-    }
-  }
-
-  // toggle in the ON state /
-  &:checked ~ label {
-    border: 4px solid #fff;
-    border-color: #afa;
-    background: rgba(green, 0.6);
-
-    &::before {
-      width: 60px;
-    }
-
-    &::after {
-      transform: translateX(40px);
-      background-color: #4c4;
-      box-shadow: -4px 0 4px rgba(black, 0.1);
-    }
-  }
-
-  //  This is the part that activates the background when the checkbox is checked
-
-  &:checked ~ div {
-    // background: yellow;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 240ms, visibility 0s;
-    animation: rot 10s linear infinite;
   }
 }
 </style>
