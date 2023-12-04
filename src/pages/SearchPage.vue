@@ -22,10 +22,9 @@ export default {
     activeFilters() {
       const activeFilters = {
         activeExtras: [],
-        activeAddress: this.searchAddress,
+        activeAddress: store.addressSearch.address,
         activeRange: this.searchRange,
       };
-      activeFilters.activeAddress = this.searchAddress;
 
       this.extras.forEach((extra) => {
         if (extra.active) activeFilters.activeExtras.push(extra.id);
@@ -51,6 +50,7 @@ export default {
         .then((response) => {
           this.filteredHouses = response.data.data;
           this.pagination.links = response.data.links;
+          console.log(response);
         });
     },
 
@@ -69,11 +69,59 @@ export default {
       extra.active = !extra.active;
       this.fetchHouses();
     },
+
+    createSearchBox() {
+      // Inserisco le opzioni del construttore di SearchBox
+      var options = {
+        // Opzioni di ricerca
+        searchOptions: {
+          key: "5uNY3BSE9gSMXl2atJSMJJrZAbfvhazZ",
+          language: "it-IT",
+          limit: 5,
+        },
+        // Autocomplete
+        autocompleteOptions: {
+          key: "5uNY3BSE9gSMXl2atJSMJJrZAbfvhazZ",
+          language: "it-IT",
+        },
+        // placeholder
+        placeholder: "Es. Via Roma...",
+      };
+      // Prendo un elemento
+      let addressElement = document.getElementById("address-element");
+      // Elemento SearchBox
+      let ttSearchBox = new tt.plugins.SearchBox(tt.services, options);
+      // SearchBox in HTML
+      let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+      // inserisco il searchBox HTML dentro l'elemento selezionato
+      addressElement.append(searchBoxHTML);
+
+      // Prendo l'input della searchBox
+      let addressInput = this.searchAddress;
+
+      // Istanzo gli attributi sul input address
+      // addressInput.setAttribute("id", "address");
+
+      // Chiamo l'evento tomtom.searchbox.resultselected
+      ttSearchBox.on("tomtom.searchbox.resultselected", function (data) {
+        console.log(data);
+        // Inserisco il valore dell'indirizzo dall'oggetto data in una variabile
+        let addressVal = data.data.result.address.freeformAddress;
+
+        // Inserisco il valore dell'indirizzo dentro il valore dell'input nascosto
+        store.addressSearch.address = addressVal;
+        console.log(store.addressSearch.address);
+      });
+    },
   },
 
   created() {
     this.fetchHouses();
     this.fetchExtras();
+  },
+
+  mounted() {
+    this.createSearchBox();
   },
 };
 </script>
@@ -81,17 +129,17 @@ export default {
 <template>
   <h4>Cerca qui la tua casa dei sogni!</h4>
   <!-- <form class="d-flex my-5" role="search"> -->
-  <div>
+  <div class="search-container">
     <label for="address">Address</label>
-    <input
+    <div id="address-element" class="search-box"></div>
+    <!-- <input
       type="text"
       name="address"
       id="address"
       class="mt-2"
       v-model="searchAddress"
-    />
+    /> -->
   </div>
-  <!-- <div id="address-element"></div> -->
   <div>
     <label for="radius" class="form-label">Radius</label>
     <input
@@ -154,6 +202,14 @@ h4 {
   margin-bottom: 3rem;
 }
 
+.search-container {
+  display: flex;
+
+  .search-box {
+    width: calc(100% / 3);
+  }
+}
+
 input[type="checkbox"] {
   display: none;
 
@@ -204,7 +260,7 @@ input[type="checkbox"] {
     }
   }
 
-//  This is the part that activates the background when the checkbox is checked
+  //  This is the part that activates the background when the checkbox is checked
 
   &:checked ~ div {
     // background: yellow;
