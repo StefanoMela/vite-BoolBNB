@@ -90,49 +90,64 @@ export default {
 
   <form @submit.prevent="submitForm">
     <div>
+      <h5 class="mb-4">invia un messaggio al propietario</h5>
       <div v-if="banner" class="alert alert-danger" role="alert">
         <ul>
-          <li v-for="error in formErrors">{{ error[0] }}</li>
+          <li v-for="error in formErrors">
+            <strong>{{ error[0] }}</strong>
+          </li>
         </ul>
       </div>
 
       <div class="row row-cols-4 flex-column">
-        <div class="w-50">
-          <label for="formfield-email" class="form-label">E-mail</label>
+        <div class="w-100">
+          <label for="formfield-email" class="form-label">E-mail*</label>
           <input
             v-model="formField.email"
             type="email"
+            required
             class="form-control"
             id="formfield-email"
-            placeholder="E-mail"
+            placeholder="Inserisci la tua E-mail"
           />
         </div>
-        <div class="my-3 w-50">
-          <label for="formfield-name" class="form-label">Nome</label>
+        <div class="my-3 w-100">
+          <label for="formfield-name" class="form-label">Nome*</label>
           <input
             v-model="formField.name"
             type="text"
+            required
             class="form-control"
             id="formfield-name"
-            placeholder="Nome"
+            placeholder="Inserisci il tuo Nome"
           />
         </div>
-        <div class="w-50">
-          <label for="formfield-message" class="form-label">Messaggio</label>
+        <div class="w-100">
+          <label for="formfield-message" class="form-label">Messaggio*</label>
           <textarea
             v-model="formField.text"
             class="form-control"
+            required
             id="formfield-message"
-            rows="3"
+            rows="4"
           ></textarea>
         </div>
       </div>
 
-      <button class="btn btn-success" @click="sendMessage()">
-        Invia Messaggio
-      </button>
+      <div class="">
+        <button class="btn btn-success my-3" @click="sendMessage()">
+          Invia Messaggio
+        </button>
+        <div class="small fst-italic text-secondary">
+          Sono contrassegnati con * i dati obbligatori.
+        </div>
+      </div>
     </div>
   </form>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.small {
+  font-size: 14px;
+}
+</style>
