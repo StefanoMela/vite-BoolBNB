@@ -9,7 +9,7 @@ export default {
 
 <template>
   <NavbarUi />
-  <div class="container">
+  <div class="container my-4 d-flex flex-column align-items-center">
     <RouterView />
   </div>
 </template>
