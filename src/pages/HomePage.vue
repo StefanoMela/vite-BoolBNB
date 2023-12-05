@@ -7,10 +7,9 @@ export default {
 </script>
 
 <template>
-  <h1>Case in evidenza</h1>
-
-  <h4>Cerca qui la tua casa dei sogni!</h4>
-  <!-- <form class="d-flex my-5" role="search"> -->
+  <h1>Cerca qui la tua casa dei sogni!</h1>
+  <h3>Case in evidenza</h3>
+ 
   <div class="search-bar">
     <div class="search-container border">
       <form role="search">
@@ -35,28 +34,18 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-h1 {
-  text-align: center;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+
+h3{
+  margin: 1.5rem 0;
 }
 
 .search-bar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 .search-container {
   background-color: white;
   padding: 4px 7px;
   border-radius: 25px;
-}
-
-.search-form {
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
 }
 
 input {
