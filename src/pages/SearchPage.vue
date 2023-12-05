@@ -2,30 +2,40 @@
 import { store } from "../data/store";
 import axios from "axios";
 import HouseCard from "../components/houses/HouseCard.vue";
+import SearchBox from "../components/ui/SerchBoxUi.vue";
 
 export default {
   data() {
     return {
       extras: [],
+
+      // Filters
+      searchAddress: "",
+      searchRange: 20,
+      rooms: "",
+      beds: "",
+      bathrooms: "",
+
+      // Filtered Results
       filteredHouses: [],
 
-      pagination: {
-        links: null,
-      },
+      pagination: { links: null },
+
       store,
-      searchAddress: "",
-      searchRange: 0,
     };
   },
 
   computed: {
+    // Filtri attivi
     activeFilters() {
       const activeFilters = {
         activeExtras: [],
-        activeAddress: this.searchAddress,
+        activeAddress: store.addressSearch.address,
         activeRange: this.searchRange,
+        beds: this.beds === "5+" ? "5" : this.beds,
+        bathrooms: this.bathrooms === "5+" ? "5" : this.bathrooms,
+        rooms: this.rooms === "5+" ? "5" : this.rooms,
       };
-      activeFilters.activeAddress = this.searchAddress;
 
       this.extras.forEach((extra) => {
         if (extra.active) activeFilters.activeExtras.push(extra.id);
@@ -35,11 +45,22 @@ export default {
         activeFilters,
       };
     },
+
+    bedIconColor() {
+      return this.beds ? "#FF385C" : "";
+    },
+    bathIconColor() {
+      return this.bathrooms ? "#FF385C" : "";
+    },
+    roomIconColor() {
+      return this.rooms ? "#FF385C" : "";
+    },
   },
 
-  components: { HouseCard },
+  components: { HouseCard, SearchBox },
 
   methods: {
+    // Chiamata per appartamenti filtrati
     fetchHouses(uri = store.api.baseUrl + "get-houses-by-filters") {
       console.log(this.activeFilters);
       axios
@@ -51,9 +72,12 @@ export default {
         .then((response) => {
           this.filteredHouses = response.data.data;
           this.pagination.links = response.data.links;
+          console.log(response);
+          console.log(response.data.links);
         });
     },
 
+    // Chiamata extras
     fetchExtras() {
       axios.get(store.api.baseUrl + "extras").then((response) => {
         this.extras = response.data.map((extra) => {
@@ -65,6 +89,7 @@ export default {
       });
     },
 
+    // Attivazione extra e chiamata della casa filtrata
     toggleExtra(extra) {
       extra.active = !extra.active;
       this.fetchHouses();
@@ -79,19 +104,84 @@ export default {
 </script>
 
 <template>
-  <h4>Cerca qui la tua casa dei sogni!</h4>
-  <!-- <form class="d-flex my-5" role="search"> -->
-  <div>
-    <label for="address">Address</label>
-    <input
-      type="text"
-      name="address"
-      id="address"
-      class="mt-2"
-      v-model="searchAddress"
-    />
+  <!-- Filtri  -->
+  <div class="container-fluid filter-container">
+    <div class="icons-container">
+      <!-- Filtri service extra -->
+      <div
+        v-for="(extra, index) in extras"
+        class="icons-wrapper"
+        :style="{ color: extra.active ? '#FF385C' : '' }"
+      >
+        <font-awesome-icon
+          class="icons"
+          :icon="extra.icon_vue"
+          :id="index"
+          :class="{ disabled: !extra.active }"
+          :style="{ color: extra.active ? '#FF385C' : '' }"
+          @click="toggleExtra(extra)"
+          type="checkbox"
+        />
+        {{ extra.name }}
+      </div>
+      <!-- Filtro bagni -->
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-bath"
+          size="2xl"
+          :style="{ color: bathIconColor }"
+        />
+        <label :style="{ color: bathIconColor }" for="bathrooms">Bagni</label>
+        <select v-model="bathrooms" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+      <!-- Filtro camere -->
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-couch"
+          size="2xl"
+          :style="{ color: roomIconColor }"
+        />
+        <label :style="{ color: roomIconColor }" for="rooms">Stanze</label>
+        <select v-model="rooms" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+      <!-- Filtro letti -->
+      <div class="icons-wrapper">
+        <font-awesome-icon
+          class="icons mx-4"
+          icon="fa-solid fa-bed"
+          size="2xl"
+          :style="{ color: bedIconColor }"
+        />
+        <label :style="{ color: bedIconColor }" for="beds">Letti</label>
+        <select v-model="beds" @change="fetchHouses()">
+          <option value=""></option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+    </div>
   </div>
-  <!-- <div id="address-element"></div> -->
+
+  <!-- Titolo -->
+  <h4>Cerca qui la tua casa dei sogni!</h4>
+
+  <!-- SearchBox -->
+  <SearchBox />
+
+  <!-- Raggio -->
   <div>
     <label for="radius" class="form-label">Radius</label>
     <input
@@ -104,36 +194,27 @@ export default {
       v-model="searchRange"
       @click.left="fetchHouses()"
     />
-    <span>{{ this.searchRange }} km</span>
+    <span> {{ this.searchRange ? this.searchRange : 20 }} KM</span>
   </div>
+  <!-- Bottone Cerca -->
   <button @click="fetchHouses()" class="btn btn-outline-success" type="submit">
     Search
   </button>
-  <!-- </form> -->
-  <div class="d-flex flex-row gap-3 justify-content-center">
-    <div
-      v-for="(extra, index) in extras"
-      class="text-center mx-3 text-capitalize fw-bold d-flex flex-column align-items-center"
-    >
-      {{ extra.name }}
-      <input
-        :id="index"
-        :class="{ disabled: !extra.active }"
-        @click="toggleExtra(extra)"
-        type="checkbox"
-      />
-      <!-- will be hidden -->
-      <label :style="{ backgroundColor: extra.color }" :for="index"></label>
-      <!-- toggle, will activate checkbox -->
-      <div class="plate"></div>
-      <!-- animating background -->
-    </div>
-  </div>
+
+  <!-- Risultati -->
   <h4>Risultati ricerca:</h4>
+
+  <!-- Griglia card appartamenti -->
   <div class="row row-cols-3 g-4">
     <HouseCard v-for="house in filteredHouses" :house="house" />
   </div>
-  <nav class="my-4" aria-label="Page navigation example">
+
+  <!-- Paginazione -->
+  <nav
+    v-if="pagination.links && pagination.links.length > 3"
+    class="my-4"
+    aria-label="Page navigation example"
+  >
     <ul class="pagination">
       <li
         v-for="link in this.pagination.links"
@@ -153,65 +234,34 @@ h4 {
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
+.icons-container {
+  display: flex;
 
-input[type="checkbox"] {
-  display: none;
+  .icons-wrapper {
+    text-align: center;
+    text-transform: capitalize;
+    margin-inline: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  // toggle in the OFF state //
-  ~ label {
-    position: relative;
-    display: block;
-    width: 72px;
-    height: 32.5px;
-    border-radius: 40px;
-    border: 4px solid #999;
-    // transition: transform 200ms cubic-bezier(0.41, -0.01, 0.63, 1.09);
-    cursor: pointer;
-    background: rgba(black, 0.3);
-    margin-top: 1rem;
+    .icons {
+      font-size: 1.5rem;
 
-    &::before,
-    &::after {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 20px;
-      height: 20px;
-      border-radius: 36px;
-      content: "";
-      // transition: all 220ms cubic-bezier(0.76, 0.01, 0.15, 0.97);
-    }
-
-    &::after {
-      background-color: #999;
+      cursor: pointer;
     }
   }
+}
+.filter-container {
+  top: 100;
+  padding: 1rem;
+}
+.search-container {
+  display: flex;
+  align-items: center;
 
-  // toggle in the ON state /
-  &:checked ~ label {
-    border: 4px solid #fff;
-    border-color: #afa;
-    background: rgba(green, 0.6);
-
-    &::before {
-      width: 60px;
-    }
-
-    &::after {
-      transform: translateX(40px);
-      background-color: #4c4;
-      box-shadow: -4px 0 4px rgba(black, 0.1);
-    }
-  }
-
-//  This is the part that activates the background when the checkbox is checked
-
-  &:checked ~ div {
-    // background: yellow;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 240ms, visibility 0s;
-    animation: rot 10s linear infinite;
+  .search-box {
+    width: calc(100% / 3);
   }
 }
 </style>

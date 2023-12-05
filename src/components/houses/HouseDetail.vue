@@ -19,44 +19,48 @@ export default {
       axios.get(uri + this.$route.params.id).then((response) => {
         console.log(response);
         this.house = response.data;
+        this.extras = response.data.extras;
       });
     },
 
-    fetchExtras(uri = store.api.baseUrl + "extras/") {
-      axios.get(uri + this.$route.params.id).then((response) => {
-        this.extras = response.data;
-      });
-    },
+    // fetchExtras(uri = store.api.baseUrl + "extras/") {
+    //   axios.get(uri + "?house_id=" + this.$route.params.id).then((response) => {
+    //     this.extras = response.data;
+    //   });
+    // },
   },
 
   created() {
     this.fetchDetail();
-    this.fetchExtras();
   },
 };
 </script>
 
 <template>
-  <div class="container">
-    <h1 class="my-4">{{ house.title }}</h1>
-    <div class="row">
-      <div class="col-6">
-        <img :src="house.cover_image" alt="" class="img-fluid" />
+  <div class="container fluid">
+    <div class="card border rounded-4 p-4 mt-2">
+      <h1 class="my-4">{{ house.title }}</h1>
+      <div class="row">
+        <div class="col-6">
+          <img :src="house.cover_image" alt="" class="img-fluid rounded-4" />
+        </div>
+      </div>
+      <div class="col-4 mt-3 border rounded-4 p-2">
+        <MessageForm :houseId="house.id" />
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-8">
-        <div class="fs-4 my-3">{{ house.description }}</div>
+    <div class="d-flex justify-content-between">
+      <div class="">
+        <div class="fs-4 my-3 description text-truncate">
+          <p class="description">{{ house.description }}</p>
+        </div>
         <div class="fs-5">
           <b>Proprietario:</b>
           {{ house.user && house.user.name }}
           {{ house.user && house.user.last_name }}
         </div>
         <div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
-      </div>
-      <div class="col-4 mt-3 border rounded-4 p-2">
-        <MessageForm :houseId="house.id" />
       </div>
     </div>
 
@@ -70,7 +74,7 @@ export default {
       </div>
     </div>
 
-    <div class="row mt-5">
+    <div class="row my-5">
       <h3>Servizi Aggiuntivi</h3>
       <div class="col-6 d-flex mt-3">
         <div
@@ -87,6 +91,38 @@ export default {
       </div>
     </div>
   </div>
+
+  <div class="mt-3 border rounded-4 p-4 m-2">
+    <form action="#" method="post">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="message">Messaggio</label>
+        <textarea
+          class="form-control"
+          id="message"
+          name="message"
+          rows="5"
+          required
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Invia</button>
+    </form>
+  </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.description {
+  max-width: 100%;
+  white-space: pre-line;
+}
+</style>

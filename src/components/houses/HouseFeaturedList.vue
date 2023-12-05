@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       houses: [],
+      extras: [],
 
       pagination: {
         links: null,
@@ -19,9 +20,9 @@ export default {
   methods: {
     fetchCards(uri = store.api.baseUrl + "houses") {
       axios.get(uri).then((response) => {
-        console.log(response);
         this.houses = response.data.data;
         this.pagination.links = response.data.links;
+        console.log(response.data.data);
       });
     },
   },
@@ -39,6 +40,7 @@ export default {
     <nav
       class="my-4"
       aria-label="Page navigation example"
+      v-if="pagination.links && pagination.links.length > 3"
     >
       <ul class="pagination">
         <li
