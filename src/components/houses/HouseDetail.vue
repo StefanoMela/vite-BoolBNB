@@ -3,16 +3,20 @@ import HouseCard from "./HouseCard.vue";
 import MessageForm from "./MessageForm.vue";
 import axios from "axios";
 import { store } from "../../data/store";
+import Map from "../ui/Map.vue";
 
 export default {
   data() {
     return {
-      house: {},
+      house: {
+        latitude: 0,
+        longitude: 0,
+      },
       extras: {},
     };
   },
 
-  components: { HouseCard, MessageForm },
+  components: { HouseCard, MessageForm, Map },
 
   methods: {
     fetchDetail(uri = store.api.baseUrl + "houses/") {
@@ -20,6 +24,8 @@ export default {
         console.log(response);
         this.house = response.data;
         this.extras = response.data.extras;
+        this.house.latitude = response.data.latitude;
+        this.house.longitude = response.data.longitude;
       });
     },
 
@@ -47,6 +53,13 @@ export default {
       </div>
       <div class="col-4 mt-3 border rounded-4 p-2">
         <MessageForm :houseId="house.id" />
+      </div>
+      <div>
+        <!-- importo la mappa e invio le coordinate convertendo le stringe in numeri -->
+        <Map
+          :longitude="parseFloat(house.longitude)"
+          :latitude="parseFloat(house.latitude)"
+        />
       </div>
     </div>
 
