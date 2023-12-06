@@ -3,6 +3,7 @@ import HouseCard from "./HouseCard.vue";
 import MessageForm from "./MessageForm.vue";
 import axios from "axios";
 import { store } from "../../data/store";
+import AppLoader from "../AppLoader.vue";
 
 export default {
   data() {
@@ -15,13 +16,15 @@ export default {
         hasError: false,
         message: "",
       },
+      isLoading: false,
     };
   },
 
-  components: { HouseCard, MessageForm },
+  components: { HouseCard, MessageForm, AppLoader },
 
   methods: {
     fetchDetail(uri = store.api.baseUrl + "houses/") {
+      this.isLoading = true;
       axios
         .get(uri + this.$route.params.id)
         .then((response) => {
@@ -35,6 +38,9 @@ export default {
         // controllo degli errori
         .catch((error) => {
           this.$router.push({ name: "not-found" });
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
 
@@ -62,6 +68,7 @@ export default {
 </script>
 
 <template>
+  <AppLoader v-if="isLoading" />
   <div class="container fluid">
     <div class="card border rounded-4 p-4 mt-2">
       <div></div>
