@@ -179,7 +179,7 @@ export default {
   <h4>Cerca qui la tua casa dei sogni!</h4>
 
   <!-- SearchBox -->
-  <SearchBox />
+  <!-- <SearchBox /> -->
 
   <!-- Raggio -->
   <div>
@@ -197,9 +197,9 @@ export default {
     <span> {{ this.searchRange ? this.searchRange : 20 }} KM</span>
   </div>
   <!-- Bottone Cerca -->
-  <button @click="fetchHouses()" class="btn btn-outline-success" type="submit">
+  <!-- <button @click="fetchHouses()" class="btn btn-outline-success" type="submit">
     Search
-  </button>
+  </button> -->
 
   <!-- Risultati -->
   <h4>Risultati ricerca:</h4>

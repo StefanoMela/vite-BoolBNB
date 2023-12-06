@@ -91,33 +91,6 @@ export default {
       </div>
     </div>
   </div>
-
-  <div class="mt-3 border rounded-4 p-4 m-2">
-    <form action="#" method="post">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          name="email"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="message">Messaggio</label>
-        <textarea
-          class="form-control"
-          id="message"
-          name="message"
-          rows="5"
-          required
-        ></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary mt-3">Invia</button>
-    </form>
-  </div>
 </template>
 
 <style lang="scss" scoped>
