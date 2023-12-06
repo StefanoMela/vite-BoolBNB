@@ -26,11 +26,19 @@ export default {
         class="to-detail"
       >
         <img
-          :src="house.cover_image"
+          :src="
+            house.cover_image ==
+            'http://localhost:8000/storage/https://placehold.co/600x400'
+              ? 'https://placehold.co/600x400'
+              : house.cover_image
+          "
           class="card-img-top rounded-4"
           alt="..."
         />
         <h4 class="card-title">{{ house.title }}</h4>
+        <p>
+          {{ house.description }}
+        </p>
         <div class="filters d-lg-flex">
           <ul class="d-flex fs-5">
             <li class="mx-2 extras">
@@ -61,20 +69,20 @@ export default {
               <font-awesome-icon :icon="extra.icon_vue" />
             </li>
             <!-- <li
-              class="mx-1 badge"
-              v-for="extra in house.extras"
-              :style="{ color: extra.color }"
+            class="mx-1 badge"
+            v-for="extra in house.extras"
+            :style="{ color: extra.color }"
             >
-              <font-awesome-icon :icon="extra.icon_vue" />
+            <font-awesome-icon :icon="extra.icon_vue" />
             </li> -->
           </ul>
         </div>
-        <div class="card-overlay" v-show="showDetails">
+        <!-- <div class="card-overlay" v-show="showDetails">
           <transition name="fade">
             <p class="card-text">{{ house.description }}</p>
-          </transition>
-          <!-- codice per aggiungere bottone -->
-          <!-- <transition name="slide-fade">
+          </transition> -->
+        <!-- codice per aggiungere bottone -->
+        <!-- <transition name="slide-fade">
             <router-link
               :to="{ name: 'house-detail', params: { id: house.id } }"
               class="btn"
@@ -82,7 +90,7 @@ export default {
               Vedi il dettaglio
             </router-link>
           </transition> -->
-        </div>
+        <!-- </div> -->
       </router-link>
     </div>
   </div>

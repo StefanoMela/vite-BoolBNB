@@ -3,31 +3,62 @@ import HouseCard from "./HouseCard.vue";
 import MessageForm from "./MessageForm.vue";
 import axios from "axios";
 import { store } from "../../data/store";
+import AppLoader from "../AppLoader.vue";
 
 export default {
   data() {
     return {
       house: {},
       extras: {},
+      map: null,
+      marker: null,
+      error: {
+        hasError: false,
+        message: "",
+      },
+      isLoading: false,
     };
   },
 
-  components: { HouseCard, MessageForm },
+  components: { HouseCard, MessageForm, AppLoader },
 
   methods: {
     fetchDetail(uri = store.api.baseUrl + "houses/") {
-      axios.get(uri + this.$route.params.id).then((response) => {
-        console.log(response);
-        this.house = response.data;
-        this.extras = response.data.extras;
-      });
+      this.isLoading = true;
+      axios
+        .get(uri + this.$route.params.id)
+        .then((response) => {
+          console.log(response);
+          this.house = response.data;
+          this.extras = response.data.extras;
+
+          // Inizializzazione della mappa TomTom
+          this.initMap();
+        })
+        // controllo degli errori
+        .catch((error) => {
+          this.$router.push({ name: "not-found" });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
 
-    // fetchExtras(uri = store.api.baseUrl + "extras/") {
-    //   axios.get(uri + "?house_id=" + this.$route.params.id).then((response) => {
-    //     this.extras = response.data;
-    //   });
-    // },
+    // funzione che importa la mappa
+    initMap() {
+      const mapContainer = this.$refs.mapContainer;
+
+      this.map = tt.map({
+        key: "0rTLHeC6A9vwS6HFMZTV1xEuCF56dTTt",
+        container: mapContainer,
+        style: "tomtom://vector/1/basic-main",
+        center: [
+          parseFloat(this.house.longitude),
+          parseFloat(this.house.latitude),
+        ],
+        zoom: 13,
+      });
+    },
   },
 
   created() {
@@ -37,8 +68,10 @@ export default {
 </script>
 
 <template>
+  <AppLoader v-if="isLoading" />
   <div class="container fluid">
     <div class="card border rounded-4 p-4 mt-2">
+      <div></div>
       <h1 class="my-4">{{ house.title }}</h1>
       <div class="row">
         <div class="col-6">
@@ -47,6 +80,10 @@ export default {
       </div>
       <div class="col-4 mt-3 border rounded-4 p-2">
         <MessageForm :houseId="house.id" />
+      </div>
+      <div class="">
+        <!-- Mappa incorporata -->
+        <div ref="mapContainer" class="map-container"></div>
       </div>
     </div>
 
@@ -97,5 +134,12 @@ export default {
 .description {
   max-width: 100%;
   white-space: pre-line;
+}
+
+.map-container {
+  margin-top: 20px;
+  width: 100%;
+  height: 400px;
+  position: relative;
 }
 </style>
