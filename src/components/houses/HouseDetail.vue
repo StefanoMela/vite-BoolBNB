@@ -11,6 +11,10 @@ export default {
       extras: {},
       map: null,
       marker: null,
+      error: {
+        hasError: false,
+        message: "",
+      },
     };
   },
 
@@ -18,14 +22,20 @@ export default {
 
   methods: {
     fetchDetail(uri = store.api.baseUrl + "houses/") {
-      axios.get(uri + this.$route.params.id).then((response) => {
-        console.log(response);
-        this.house = response.data;
-        this.extras = response.data.extras;
+      axios
+        .get(uri + this.$route.params.id)
+        .then((response) => {
+          console.log(response);
+          this.house = response.data;
+          this.extras = response.data.extras;
 
-        // Inizializzazione della mappa TomTom
-        this.initMap();
-      });
+          // Inizializzazione della mappa TomTom
+          this.initMap();
+        })
+        // controllo degli errori
+        .catch((error) => {
+          this.$router.push({ name: "not-found" });
+        });
     },
 
     // funzione che importa la mappa
@@ -54,6 +64,7 @@ export default {
 <template>
   <div class="container fluid">
     <div class="card border rounded-4 p-4 mt-2">
+      <div></div>
       <h1 class="my-4">{{ house.title }}</h1>
       <div class="row">
         <div class="col-6">
