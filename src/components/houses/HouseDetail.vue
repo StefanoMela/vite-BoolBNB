@@ -9,6 +9,8 @@ export default {
     return {
       house: {},
       extras: {},
+      map: null,
+      marker: null,
     };
   },
 
@@ -20,14 +22,27 @@ export default {
         console.log(response);
         this.house = response.data;
         this.extras = response.data.extras;
+
+        // Inizializzazione della mappa TomTom
+        this.initMap();
       });
     },
 
-    // fetchExtras(uri = store.api.baseUrl + "extras/") {
-    //   axios.get(uri + "?house_id=" + this.$route.params.id).then((response) => {
-    //     this.extras = response.data;
-    //   });
-    // },
+    // funzione che importa la mappa
+    initMap() {
+      const mapContainer = this.$refs.mapContainer;
+
+      this.map = tt.map({
+        key: "0rTLHeC6A9vwS6HFMZTV1xEuCF56dTTt",
+        container: mapContainer,
+        style: "tomtom://vector/1/basic-main",
+        center: [
+          parseFloat(this.house.longitude),
+          parseFloat(this.house.latitude),
+        ],
+        zoom: 13,
+      });
+    },
   },
 
   created() {
@@ -47,6 +62,10 @@ export default {
       </div>
       <div class="col-4 mt-3 border rounded-4 p-2">
         <MessageForm :houseId="house.id" />
+      </div>
+      <div class="">
+        <!-- Mappa incorporata -->
+        <div ref="mapContainer" class="map-container"></div>
       </div>
     </div>
 
@@ -91,38 +110,18 @@ export default {
       </div>
     </div>
   </div>
-
-  <div class="mt-3 border rounded-4 p-4 m-2">
-    <form action="#" method="post">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          name="email"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="message">Messaggio</label>
-        <textarea
-          class="form-control"
-          id="message"
-          name="message"
-          rows="5"
-          required
-        ></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary mt-3">Invia</button>
-    </form>
-  </div>
 </template>
 
 <style lang="scss" scoped>
 .description {
   max-width: 100%;
   white-space: pre-line;
+}
+
+.map-container {
+  margin-top: 20px;
+  width: 100%;
+  height: 400px;
+  position: relative;
 }
 </style>
