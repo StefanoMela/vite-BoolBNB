@@ -20,9 +20,17 @@ export default {
   methods: {
     fetchCards(uri = store.api.baseUrl + "houses") {
       axios.get(uri).then((response) => {
-        this.houses = response.data.data;
+        console.log(response);
+        this.houses = response.data.data.map((house) => {
+          // Limita la lunghezza della descrizione a 100 caratteri
+          house.description =
+            house.description.length > 100
+              ? house.description.substring(0, 100) + "..."
+              : house.description;
+          return house;
+        });
+
         this.pagination.links = response.data.links;
-        console.log(response.data.data);
       });
     },
   },

@@ -6,6 +6,9 @@ export default {
   data() {
     return {
       title: "SearchBox",
+      searchAddress: "",
+      filteredHouses: [],
+
       store,
     };
   },
@@ -61,10 +64,48 @@ export default {
 
 <template>
   <!-- SearchBox -->
-  <div class="search-container">
-    <label for="address">Address</label>
+  <div class="search-container d-flex align-items-center">
     <div id="address-element" class="search-box"></div>
+
+    <RouterLink
+      @click="fetchHouses()"
+      class="nav-link btn-cerca"
+      :to="{ name: 'search' }"
+      >Cerca
+    </RouterLink>
+    <!-- <button class="btn btn-success" type="submit">
+      <a href="http://localhost:5173/search">ciao</a>
+    </button> -->
   </div>
+
+  <!-- <form class="d-flex search-container">
+    <div id="address-element" class="search-box d-flex search-container"></div>
+
+    <button class="btn btn-success" type="submit">Search</button>
+  </form> -->
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.search-container {
+  margin-left: auto;
+  margin-right: 15px; /* Aggiusta il margine a tuo piacimento */
+  border-radius: 10px; /* Aggiusta il raggio del bordo a tuo piacimento */
+}
+
+/* Personalizza lo stile del box di ricerca */
+.search-box {
+  width: 300px; /* Aggiusta la larghezza a tuo piacimento */
+  border-radius: 15px; /* Aggiusta il raggio del bordo a tuo piacimento */
+  color: #f8f9fa;
+}
+
+/* Personalizza lo stile del bottone "Search" */
+.btn-cerca {
+  margin-top: 10px;
+  margin-left: 10px;
+  border: none;
+  background-color: rgb(198, 103, 210);
+  padding: 8px 15px;
+  border-radius: 20px;
+}
+</style>
