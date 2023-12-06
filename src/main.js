@@ -26,6 +26,10 @@ import { faToilet } from "@fortawesome/free-solid-svg-icons";
 import { faBath } from "@fortawesome/free-solid-svg-icons";
 import { faCouch } from "@fortawesome/free-solid-svg-icons";
 import { faBed } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
+// import loader
+import AppLoader from "./components/AppLoader.vue";
 import { createApp } from "vue";
 
 library.add(
@@ -41,10 +45,12 @@ library.add(
   faToilet,
   faBath,
   faCouch,
-  faBed
+  faBed,
+  faSpinner
 );
 
 createApp(App)
   .use(router)
   .component("font-awesome-icon", FontAwesomeIcon)
+  .component("AppLoader", AppLoader)
   .mount("#app");
