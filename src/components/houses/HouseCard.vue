@@ -1,16 +1,76 @@
 <script>
 import axios from "axios";
 import { RouterLink } from "vue-router";
+import { store } from "../../data/store";
 
 export default {
   data() {
     return {
       showDetails: false,
       extras: [],
+      store,
+      isSearchPage: false,
     };
   },
   props: { house: Object },
   components: { RouterLink },
+  computed: {
+    userLatitude() {
+      return store.addressSearch.latitude; // Ottenere la latitudine dell'utente dallo store
+    },
+    userLongitude() {
+      return store.addressSearch.longitude; // Ottenere la longitudine dell'utente dallo store
+    },
+  },
+  methods: {
+    calculateDistance() {
+      const houseLatitude = this.house.latitude; // Latitudine della casa
+      const houseLongitude = this.house.longitude; // Longitudine della casa
+
+      const userLatitude = store.addressSearch.latitude; // Latitudine dell'utente dallo store
+      const userLongitude = store.addressSearch.longitude; // Longitudine dell'utente dallo store
+
+      function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Raggio della Terra in chilometri
+        const dLat = deg2rad(lat2 - lat1);
+        const dLon = deg2rad(lon2 - lon1);
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(deg2rad(lat1)) *
+            Math.cos(deg2rad(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c; // Distanza in chilometri
+        return distance;
+      }
+
+      // Funzione per convertire gradi in radianti
+      function deg2rad(deg) {
+        return deg * (Math.PI / 180);
+      }
+
+      const distance = getDistanceFromLatLonInKm(
+        houseLatitude,
+        houseLongitude,
+        userLongitude,
+        userLatitude
+      );
+      console.log(houseLatitude);
+      console.log(houseLongitude);
+      console.log(userLongitude);
+      console.log(userLatitude);
+
+      return distance.toFixed(2); // Restituire la distanza con due cifre decimali
+    },
+  },
+  created() {
+    this.isSearchPage = this.$route.name === "search";
+    // Fai qualcosa con isSearchPage, come ad esempio impostare una variabile nel data
+    if (this.isSearchPage) {
+      this.isSearchPage = true;
+    }
+  },
 };
 </script>
 
@@ -39,6 +99,10 @@ export default {
         <p>
           {{ house.description }}
         </p>
+        <div v-if="isSearchPage">
+          <p>Distanza: {{ calculateDistance() }} km</p>
+        </div>
+
         <div class="filters d-lg-flex">
           <ul class="d-flex fs-5">
             <li class="mx-2 extras">

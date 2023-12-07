@@ -189,15 +189,15 @@ export default {
   <!-- <SearchBox /> -->
 
   <!-- Raggio -->
-  <div>
-    <label for="radius" class="form-label">Radius</label>
+  <div class="d-flex">
+    <label for="radius" class="form-label">Raggio</label>
     <input
       type="range"
       class="form-range w-50 px-2"
       id="radius"
-      min="20"
-      max="100"
-      step="5"
+      min="1"
+      max="50"
+      step="1"
       v-model="searchRange"
       @click.left="fetchHouses()"
     />
