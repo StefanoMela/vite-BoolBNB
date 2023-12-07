@@ -22,6 +22,8 @@ export default {
       pagination: { links: null },
 
       store,
+
+      isLoading: false,
     };
   },
 
@@ -62,6 +64,7 @@ export default {
   methods: {
     // Chiamata per appartamenti filtrati
     fetchHouses(uri = store.api.baseUrl + "get-houses-by-filters") {
+      this.isLoading = true;
       console.log(this.activeFilters);
       axios
         .post(uri, this.activeFilters, {
@@ -74,6 +77,9 @@ export default {
           this.pagination.links = response.data.links;
           console.log(response);
           console.log(response.data.links);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
 
@@ -104,6 +110,7 @@ export default {
 </script>
 
 <template>
+  <AppLoader v-if="isLoading" />
   <!-- Filtri  -->
   <div class="container-fluid filter-container">
     <div class="icons-container">

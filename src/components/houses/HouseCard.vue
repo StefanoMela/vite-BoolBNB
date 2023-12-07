@@ -17,7 +17,7 @@ export default {
 <template>
   <div class="col">
     <div
-      class="card border-0 h-100 position-relative"
+      class="card border-0 position-relative"
       @mouseover="showDetails = true"
       @mouseleave="showDetails = false"
     >
@@ -99,6 +99,7 @@ export default {
 <style lang="scss" scoped>
 img {
   max-width: 100%;
+  height: 250px;
 }
 
 .to-detail {
