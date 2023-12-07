@@ -6,140 +6,131 @@ import { store } from "../../data/store";
 import AppLoader from "../AppLoader.vue";
 
 export default {
-  data() {
-    return {
-      house: {},
-      extras: {},
-      map: null,
-      marker: null,
-      error: {
-        hasError: false,
-        message: "",
-      },
-      isLoading: false,
-    };
-  },
+	data() {
+		return {
+			house: {},
+			extras: {},
+			map: null,
+			marker: null,
+			error: {
+				hasError: false,
+				message: "",
+			},
+			isLoading: false,
+		};
+	},
 
-  components: { HouseCard, MessageForm, AppLoader },
+	components: { HouseCard, MessageForm, AppLoader },
 
-  methods: {
-    fetchDetail(uri = store.api.baseUrl + "houses/") {
-      this.isLoading = true;
-      axios
-        .get(uri + this.$route.params.id)
-        .then((response) => {
-          console.log(response);
-          this.house = response.data;
-          this.extras = response.data.extras;
+	methods: {
+		fetchDetail(uri = store.api.baseUrl + "houses/") {
+			this.isLoading = true;
+			axios
+				.get(uri + this.$route.params.id)
+				.then((response) => {
+					console.log(response);
+					this.house = response.data;
+					this.extras = response.data.extras;
 
-          // Inizializzazione della mappa TomTom
-          this.initMap();
-        })
-        // controllo degli errori
-        .catch((error) => {
-          this.$router.push({ name: "not-found" });
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
+					// Inizializzazione della mappa TomTom
+					this.initMap();
+				})
+				// controllo degli errori
+				.catch((error) => {
+					this.$router.push({ name: "not-found" });
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		},
 
-    // funzione che importa la mappa
-    initMap() {
-      const mapContainer = this.$refs.mapContainer;
+		// funzione che importa la mappa
+		initMap() {
+			const mapContainer = this.$refs.mapContainer;
 
-      this.map = tt.map({
-        key: "0rTLHeC6A9vwS6HFMZTV1xEuCF56dTTt",
-        container: mapContainer,
-        style: "tomtom://vector/1/basic-main",
-        center: [
-          parseFloat(this.house.longitude),
-          parseFloat(this.house.latitude),
-        ],
-        zoom: 13,
-      });
-    },
-  },
+			this.map = tt.map({
+				key: "0rTLHeC6A9vwS6HFMZTV1xEuCF56dTTt",
+				container: mapContainer,
+				style: "tomtom://vector/1/basic-main",
+				center: [parseFloat(this.house.longitude), parseFloat(this.house.latitude)],
+				zoom: 13,
+			});
+		},
+	},
 
-  created() {
-    this.fetchDetail();
-  },
+	created() {
+		this.fetchDetail();
+	},
 };
 </script>
 
 <template>
-  <AppLoader v-if="isLoading" />
-  <div class="container fluid">
-    <div class="card border rounded-4 p-4 mt-2">
-      <div></div>
-      <h1 class="my-4">{{ house.title }}</h1>
-      <div class="row">
-        <div class="col-6">
-          <img :src="house.cover_image" alt="" class="img-fluid rounded-4" />
-        </div>
-      </div>
-      <div class="col-4 mt-3 border rounded-4 p-2">
-        <MessageForm :houseId="house.id" />
-      </div>
-      <div class="">
-        <!-- Mappa incorporata -->
-        <div ref="mapContainer" class="map-container"></div>
-      </div>
-    </div>
+	<AppLoader v-if="isLoading" />
+	<div class="container fluid">
+		<h1 class="my-4">{{ house.title }}</h1>
+		<div class="p-4 mt-2">
+			<div class="row">
+				<div class="col">
+					<img :src="house.cover_image" alt="" class="img-fluid rounded-4" style="width: 50%" />
+				</div>
+			</div>
+		</div>
 
-    <div class="d-flex justify-content-between">
-      <div class="">
-        <div class="fs-4 my-3 description text-truncate">
-          <p class="description">{{ house.description }}</p>
-        </div>
-        <div class="fs-5">
-          <b>Proprietario:</b>
-          {{ house.user && house.user.name }}
-          {{ house.user && house.user.last_name }}
-        </div>
-        <div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
-      </div>
-    </div>
+		<div class="d-flex justify-content-between">
+			<div class="">
+				<div class="fs-4 my- description text-truncate">
+					<p class="description">{{ house.description }}</p>
+				</div>
+				<div class="fs-5">
+					<b>Proprietario:</b>
+					{{ house.user && house.user.name }}
+					{{ house.user && house.user.last_name }}
+				</div>
+				<div class="fs-5"><b>Indirizzo:</b> {{ house.address }}</div>
+			</div>
+		</div>
 
-    <div class="row mt-5">
-      <h3>Dettaglio appartamento</h3>
-      <div class="col-6">
-        <div class="fs-5"><b>Numero di stanze:</b> {{ house.rooms }}</div>
-        <div class="fs-5"><b>Metri quadri:</b> {{ house.sq_meters }}</div>
-        <div class="fs-5"><b>Numero di letti:</b> {{ house.beds }}</div>
-        <div class="fs-5"><b>Numero di bagni:</b> {{ house.bathrooms }}</div>
-      </div>
-    </div>
+		<div class="row mt-5">
+			<h3>Dettaglio appartamento</h3>
+			<div class="col-6">
+				<div class="fs-5"><b>Numero di stanze:</b> {{ house.rooms }}</div>
+				<div class="fs-5"><b>Metri quadri:</b> {{ house.sq_meters }}</div>
+				<div class="fs-5"><b>Numero di letti:</b> {{ house.beds }}</div>
+				<div class="fs-5"><b>Numero di bagni:</b> {{ house.bathrooms }}</div>
+			</div>
+		</div>
 
-    <div class="row my-5">
-      <h3>Servizi Aggiuntivi</h3>
-      <div class="col-6 d-flex mt-3">
-        <div
-          v-for="extra in extras"
-          class="d-flex flex-column align-items-center"
-        >
-          <div class=""><font-awesome-icon :icon="extra.icon_vue" /></div>
-          <div class="col-12 mx-4 text-center">
-            <span class="badge" :style="{ backgroundColor: extra.color }">{{
-              extra.name
-            }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+		<div class="row my-5">
+			<h3>Servizi Aggiuntivi</h3>
+			<div class="col-6 d-flex mt-3">
+				<div v-for="extra in extras" class="d-flex flex-column align-items-center">
+					<div class=""><font-awesome-icon :icon="extra.icon_vue" /></div>
+					<div class="col-12 mx-4 text-center">
+						<span class="badge" :style="{ backgroundColor: extra.color }">{{ extra.name }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="">
+				<!-- Mappa incorporata -->
+				<div ref="mapContainer" class="map-container"></div>
+			</div>
+		</div>
+		<div class="col-12 mt-3 border rounded-4 p-2">
+			<MessageForm :houseId="house.id" />
+		</div>
+	</div>
 </template>
 
 <style lang="scss" scoped>
 .description {
-  max-width: 100%;
-  white-space: pre-line;
+	max-width: 100%;
+	white-space: pre-line;
 }
 
 .map-container {
-  margin-top: 20px;
-  width: 100%;
-  height: 400px;
-  position: relative;
+	margin-top: 20px;
+	width: 100%;
+	height: 400px;
+	position: relative;
 }
 </style>
