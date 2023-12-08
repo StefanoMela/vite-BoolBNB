@@ -48,9 +48,13 @@ export default {
         console.log(data);
         // Inserisco il valore dell'indirizzo dall'oggetto data in una variabile
         let addressVal = data.data.result.address.freeformAddress;
+        let longitudeVal = data.data.result.position.lng;
+        let latitude = data.data.result.position.lat;
 
         // Inserisco il valore dell'indirizzo dentro il valore dell'input nascosto
         store.addressSearch.address = addressVal;
+        store.addressSearch.latitude = longitudeVal;
+        store.addressSearch.longitude = latitude;
         console.log(store.addressSearch.address);
       });
     },
@@ -67,10 +71,7 @@ export default {
   <div class="search-container d-flex align-items-center">
     <div id="address-element" class="search-box"></div>
 
-    <RouterLink
-      @click="fetchHouses()"
-      class="nav-link btn-cerca"
-      :to="{ name: 'search' }"
+    <RouterLink class="nav-link btn-cerca" :to="{ name: 'search' }"
       >Cerca
     </RouterLink>
     <!-- <button class="btn btn-success" type="submit">
