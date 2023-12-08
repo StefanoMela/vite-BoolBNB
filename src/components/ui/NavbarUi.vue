@@ -6,13 +6,16 @@ export default {
     return {};
   },
   components: { SearchBox },
+  methods: {},
 };
 </script>
 
 <template>
-  <nav class="navbar bg-light py-3">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="http://localhost:5173/">Navbar</a>
+  <nav class="navbar bg-light py-4">
+    <div class="container-fluid position-relative">
+      <a class="navbar-brand" href="http://localhost:5173/">
+        <img src="public\NavLog.png" alt="" class="logo" />
+      </a>
       <ul class="navbar-nav">
         <li class="nav-item">
           <SearchBox />
@@ -29,11 +32,13 @@ export default {
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div
+        class="collapse navbar-collapse position-absolute user"
+        id="navbarNav"
+      >
         <!-- Sposta il dropdown sotto al bottone del toggle -->
-        <ul class="navbar-nav text-end">
-          <li class="nav-item dropdown">
-            <a
+        <ul class="navbar-nav">
+          <!-- <a
               class="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdown"
@@ -43,26 +48,40 @@ export default {
               aria-expanded="false"
             >
               Utente
-            </a>
-            <div
-              class="dropdown-menu text-end"
-              aria-labelledby="navbarDropdown"
+            </a> -->
+          <div
+            class="nav-link drop-link"
+            aria-labelledby="navbarDropdown"
+            id="navbarDropdown"
+          >
+            <a class="dropdown-item mb-2" href="http://localhost:8000/login"
+              >Login</a
             >
-              <a class="dropdown-item" href="http://localhost:8000/login"
-                >Login</a
-              >
-              <a class="dropdown-item" href="http://localhost:8000/register"
-                >Register</a
-              >
-              <!-- <a class="dropdown-item" href="http://localhost:5173/search"
+            <a class="dropdown-item" href="http://localhost:8000/register"
+              >Register</a
+            >
+            <!-- <a class="dropdown-item" href="http://localhost:5173/search"
                 >Filtra Case</a
               > -->
-            </div>
-          </li>
+          </div>
         </ul>
       </div>
     </div>
   </nav>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.user {
+  right: 10px;
+  top: 60px;
+}
+.drop-link {
+  background-color: whitesmoke;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 5px 10px 15px 3px #4a266a;
+}
+.logo {
+  width: 300px;
+}
+</style>

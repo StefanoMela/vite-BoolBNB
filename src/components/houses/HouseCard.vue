@@ -77,7 +77,7 @@ export default {
 <template>
   <div class="col">
     <div
-      class="card border-0 position-relative"
+      class="card justify-content-between border-0 position-relative"
       @mouseover="showDetails = true"
       @mouseleave="showDetails = false"
     >

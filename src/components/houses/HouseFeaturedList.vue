@@ -51,17 +51,19 @@ export default {
 <template>
   <AppLoader v-if="isLoading" />
   <div class="container my-4">
-    <div class="row row-cols-3 g-4">
-      <HouseCard v-for="house in houses" :house="house" />
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <!-- Adjust the number of columns based on screen size -->
+      <HouseCard v-for="house in houses" :house="house" :key="house.id" />
     </div>
     <nav
       class="my-4"
       aria-label="Page navigation example"
       v-if="pagination.links && pagination.links.length > 3"
     >
-      <ul class="pagination">
+      <ul class="pagination justify-content-center">
         <li
-          v-for="link in this.pagination.links"
+          v-for="link in pagination.links"
+          :key="link.url"
           @click="fetchCards(link.url)"
           class="page-item"
         >
