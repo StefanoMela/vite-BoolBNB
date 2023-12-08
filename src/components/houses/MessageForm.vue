@@ -68,6 +68,9 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+          this.formField.email = "";
+          this.formField.name = "";
+          this.formField.text = "";
         });
     },
   },
@@ -80,9 +83,9 @@ export default {
     Messaggio inviato !
   </div>
 
-  <div v-if="messageSent && loading" class="alert alert-warning">
+  <!-- <div v-if="messageSent && loading" class="alert alert-warning">
     Invio in corso
-  </div>
+  </div> -->
 
   <div v-if="messageSent && error.status" class="alert alert-danger">
     {{ error.message }}
