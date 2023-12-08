@@ -118,7 +118,7 @@ export default {
     </div>
 
     <div class="row mt-5">
-      <h3>Dettaglio appartamento</h3>
+      <h3>Dettaglio Appartamento:</h3>
       <div class="col-6">
         <div class="fs-5"><b>Numero di stanze:</b> {{ house.rooms }}</div>
         <div class="fs-5"><b>Metri quadri:</b> {{ house.sq_meters }}</div>
@@ -128,7 +128,7 @@ export default {
     </div>
 
     <div class="row my-5">
-      <h3>Servizi Aggiuntivi</h3>
+      <h3>Servizi Aggiuntivi:</h3>
       <div class="col-6 d-flex mt-3">
         <div
           v-for="extra in extras"
