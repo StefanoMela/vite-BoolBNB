@@ -29,8 +29,8 @@ export default {
           this.houses = response.data.data.map((house) => {
             // Limita la lunghezza della descrizione a 100 caratteri
             house.description =
-              house.description.length > 100
-                ? house.description.substring(0, 100) + "..."
+              house.description.length > 50
+                ? house.description.substring(0, 50) + "..."
                 : house.description;
             return house;
           });
