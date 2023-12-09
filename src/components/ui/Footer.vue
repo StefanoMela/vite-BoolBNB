@@ -77,11 +77,14 @@ export default {
     </div>
     <hr />
     <div class="row">
-      <div class="col-md-12 text-center">
+      <div class="col-md-6 text-center">
         <p>
           &copy; 2023 BoolBnb, Inc. | Scegli una valuta: € (EUR) |
           {{ currentDateTime }}
         </p>
+      </div>
+      <div class="col-md-6 text-center">
+        <a class="btn-team" href="http://localhost:5173/Team">Team 6</a>
       </div>
     </div>
   </footer>
@@ -114,5 +117,25 @@ export default {
 .footer ul li a:hover {
   text-decoration: underline;
   color: #ae85d1;
+}
+
+.btn-team {
+  margin-top: 10px;
+  margin-left: 10px;
+  border: none;
+  background-color: #4a266a;
+  color: whitesmoke;
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+.btn-team:hover {
+  margin-top: 10px;
+  margin-left: 10px;
+  border: none;
+  background-color: #ae85d1;
+  color: black;
+  padding: 8px 15px;
+  border-radius: 20px;
 }
 </style>

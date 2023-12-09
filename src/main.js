@@ -27,6 +27,8 @@ import { faBath } from "@fortawesome/free-solid-svg-icons";
 import { faCouch } from "@fortawesome/free-solid-svg-icons";
 import { faBed } from "@fortawesome/free-solid-svg-icons";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 
 // import loader
 import AppLoader from "./components/AppLoader.vue";
@@ -46,7 +48,9 @@ library.add(
   faBath,
   faCouch,
   faBed,
-  faSpinner
+  faSpinner,
+  faGithub,
+  faCarSide
 );
 
 createApp(App)
