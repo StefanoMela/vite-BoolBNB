@@ -49,13 +49,13 @@ export default {
     },
 
     bedIconColor() {
-      return this.beds ? "#FF385C" : "";
+      return this.beds ? "#4a266a" : "";
     },
     bathIconColor() {
-      return this.bathrooms ? "#FF385C" : "";
+      return this.bathrooms ? "#4a266a" : "";
     },
     roomIconColor() {
-      return this.rooms ? "#FF385C" : "";
+      return this.rooms ? "#4a266a" : "";
     },
   },
 
@@ -118,14 +118,14 @@ export default {
       <div
         v-for="(extra, index) in extras"
         class="icons-wrapper my-4"
-        :style="{ color: extra.active ? '#FF385C' : '' }"
+        :style="{ color: extra.active ? '#4a266a' : '' }"
       >
         <font-awesome-icon
           class="icons"
           :icon="extra.icon_vue"
           :id="index"
           :class="{ disabled: !extra.active }"
-          :style="{ color: extra.active ? '#FF385C' : '' }"
+          :style="{ color: extra.active ? '#4a266a' : '' }"
           @click="toggleExtra(extra)"
           type="checkbox"
         />
@@ -193,7 +193,7 @@ export default {
     <label for="radius" class="form-label">Raggio</label>
     <input
       type="range"
-      class="form-range w-50 px-2"
+      class="form-range w-50 px-2 radius"
       id="radius"
       min="1"
       max="50"
