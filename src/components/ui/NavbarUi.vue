@@ -73,4 +73,22 @@ export default {
 .logo {
   width: 300px;
 }
+.btn-cerca {
+  margin-top: 10px;
+  margin-left: 10px;
+  border: none;
+  background-color: #4a266a;
+  color: whitesmoke;
+  padding: 8px 15px;
+  border-radius: 20px;
+}
+.btn-cerca:hover {
+  margin-top: 10px;
+  margin-left: 10px;
+  border: none;
+  background-color: #ae85d1;
+  color: black;
+  padding: 8px 15px;
+  border-radius: 20px;
+}
 </style>
