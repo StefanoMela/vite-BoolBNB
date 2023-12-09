@@ -212,8 +212,15 @@ export default {
   <h4>Risultati ricerca:</h4>
 
   <!-- Griglia card appartamenti -->
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
-    <HouseCard v-for="house in filteredHouses" :house="house" :key="house.id" />
+
+  <div
+    :class="{
+      'row row-cols-12': filteredHouses.length == 1,
+      'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-3':
+        filteredHouses.length > 1,
+    }"
+  >
+    <HouseCard v-for="house in filteredHouses" :house="house" />
   </div>
 
   <!-- Paginazione -->
