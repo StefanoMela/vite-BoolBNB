@@ -95,8 +95,8 @@ export default {
 
 /* Personalizza lo stile del box di ricerca */
 .search-box {
-  width: 300px; /* Aggiusta la larghezza a tuo piacimento */
-  border-radius: 15px; /* Aggiusta il raggio del bordo a tuo piacimento */
+  width: 300px;
+  border-radius: 15px;
   color: #f8f9fa;
 }
 
@@ -105,7 +105,17 @@ export default {
   margin-top: 10px;
   margin-left: 10px;
   border: none;
-  background-color: rgb(198, 103, 210);
+  background-color: #4a266a;
+  color: whitesmoke;
+  padding: 8px 15px;
+  border-radius: 20px;
+}
+.btn-cerca:hover {
+  margin-top: 10px;
+  margin-left: 10px;
+  border: none;
+  background-color: #ae85d1;
+  color: black;
   padding: 8px 15px;
   border-radius: 20px;
 }

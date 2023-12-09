@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage.vue";
 import SearchPage from "../pages/SearchPage.vue";
 import HouseDetail from "../components/houses/HouseDetail.vue";
 import NotFound from "../pages/NotFound.vue";
+import Team from "../pages/Team.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,6 +18,11 @@ const router = createRouter({
       path: "/search",
       name: "search",
       component: SearchPage,
+    },
+    {
+      path: "/team",
+      name: "team",
+      component: Team,
     },
     {
       path: "/house/:id",
