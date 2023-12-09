@@ -212,8 +212,8 @@ export default {
   <h4>Risultati ricerca:</h4>
 
   <!-- Griglia card appartamenti -->
-  <div :class="{'row row-cols-12':filteredHouses.length == 1, 'row row-cols-4 g-3':filteredHouses.length > 1}">
-    <HouseCard v-for="house in filteredHouses" :house="house" />
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+    <HouseCard v-for="house in filteredHouses" :house="house" :key="house.id" />
   </div>
 
   <!-- Paginazione -->
@@ -243,11 +243,34 @@ h4 {
 }
 .icons-container {
   display: flex;
+  @media screen and (min-width: 30px) {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  @media screen and (min-width: 480px) {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  @media screen and (min-width: 992px) {
+    flex-wrap: nowrap;
+  }
+  display: flex;
+  @media screen and (min-width: 30px) {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  @media screen and (min-width: 480px) {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  @media screen and (min-width: 992px) {
+    flex-wrap: nowrap;
+  }
 
   .icons-wrapper {
     text-align: center;
     text-transform: capitalize;
-    margin-inline: 2rem;
+    margin-inline: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
