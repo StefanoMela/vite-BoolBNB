@@ -212,7 +212,7 @@ export default {
   <h4>Risultati ricerca:</h4>
 
   <!-- Griglia card appartamenti -->
-  <div class="row row-cols-3 g-4">
+  <div :class="{'row row-cols-12':filteredHouses.length == 1, 'row row-cols-4 g-3':filteredHouses.length > 1}">
     <HouseCard v-for="house in filteredHouses" :house="house" />
   </div>
 
