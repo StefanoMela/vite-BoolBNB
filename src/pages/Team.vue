@@ -67,7 +67,7 @@ export default {
   justify-content: center;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 8px; /* Ridotto il valore del padding */
+  padding: 8px;
   margin: 16px;
   text-align: center;
   width: 14rem;
@@ -80,7 +80,7 @@ export default {
   margin-bottom: 8px;
 }
 .fixed-card {
-  animation: none; /* Rimuove l'animazione per le card fisse */
+  animation: none;
 }
 .card-link {
   color: #4a266a;
@@ -95,9 +95,9 @@ export default {
 /* ANIMAZIONE */
 
 .animated {
-  white-space: nowrap; /* Evita il wrapping del testo */
-  overflow: hidden; /* Nasconde l'overflow del contenuto */
-  animation: scroll 12s linear infinite; /* Applica l'animazione */
+  white-space: nowrap;
+  overflow: hidden;
+  animation: scroll 12s linear infinite;
 }
 .ufo {
   width: 300px;
@@ -106,10 +106,10 @@ export default {
 /* Definisci l'animazione */
 @keyframes scroll {
   0% {
-    transform: translateX(-270%); /* Inizio della traslazione */
+    transform: translateX(-270%);
   }
   100% {
-    transform: translateX(300%); /* Fine della traslazione */
+    transform: translateX(300%);
   }
 }
 </style>
