@@ -71,7 +71,18 @@ export default {
   box-shadow: 5px 10px 15px 3px #4a266a;
 }
 .logo {
-  width: 300px;
+  @media screen and (min-width: 100px) {
+    width: 140px;
+  }
+  @media screen and (min-width: 600px) {
+    width: 150px;
+  }
+  @media screen and (min-width: 740px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 800px) {
+    width: 300px;
+  }
 }
 .btn-cerca {
   margin-top: 10px;

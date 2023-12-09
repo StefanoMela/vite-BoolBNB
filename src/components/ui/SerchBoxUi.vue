@@ -95,9 +95,26 @@ export default {
 
 /* Personalizza lo stile del box di ricerca */
 .search-box {
-  width: 300px;
   border-radius: 15px;
   color: #f8f9fa;
+  @media screen and (min-width: 480px) {
+    width: 120px;
+  }
+  @media screen and (min-width: 600px) {
+    width: 160px;
+  }
+  @media screen and (min-width: 740px) {
+    width: 250px;
+  }
+  @media screen and (min-width: 800px) {
+    width: 300px;
+  }
+  @media screen and (min-width: 900px) {
+    width: 400px;
+  }
+  @media screen and (min-width: 1000px) {
+    width: 500px;
+  }
 }
 
 /* Personalizza lo stile del bottone "Search" */

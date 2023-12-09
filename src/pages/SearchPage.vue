@@ -117,7 +117,7 @@ export default {
       <!-- Filtri service extra -->
       <div
         v-for="(extra, index) in extras"
-        class="icons-wrapper"
+        class="icons-wrapper my-4"
         :style="{ color: extra.active ? '#FF385C' : '' }"
       >
         <font-awesome-icon
@@ -257,11 +257,11 @@ h4 {
   display: flex;
   @media screen and (min-width: 30px) {
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
   @media screen and (min-width: 480px) {
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
   @media screen and (min-width: 992px) {
     flex-wrap: nowrap;
