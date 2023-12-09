@@ -38,31 +38,20 @@ export default {
       >
         <!-- Sposta il dropdown sotto al bottone del toggle -->
         <ul class="navbar-nav">
-          <!-- <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Utente
-            </a> -->
           <div
             class="nav-link drop-link"
             aria-labelledby="navbarDropdown"
             id="navbarDropdown"
           >
+            <a class="dropdown-item mb-2" href="http://localhost:5173/"
+              >HomePage</a
+            >
             <a class="dropdown-item mb-2" href="http://localhost:8000/login"
               >Login</a
             >
             <a class="dropdown-item" href="http://localhost:8000/register"
               >Register</a
             >
-            <!-- <a class="dropdown-item" href="http://localhost:5173/search"
-                >Filtra Case</a
-              > -->
           </div>
         </ul>
       </div>
