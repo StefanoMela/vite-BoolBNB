@@ -129,10 +129,10 @@ export default {
 
     <div class="row my-5">
       <h3>Servizi Aggiuntivi:</h3>
-      <div class="col-6 d-flex mt-3">
+      <div class="col-12 flex-wrap d-flex mt-3">
         <div
           v-for="extra in extras"
-          class="d-flex flex-column align-items-center"
+          class="d-flex flex-column mt-3 align-items-center"
         >
           <div class=""><font-awesome-icon :icon="extra.icon_vue" /></div>
           <div class="col-12 mx-4 text-center">
