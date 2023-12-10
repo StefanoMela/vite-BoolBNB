@@ -89,21 +89,20 @@ export default {
     <h1 class="my-4">{{ house.title }}</h1>
     <div class="p-4 mt-2">
       <div class="row">
-        <div class="col">
-          <img
-            :src="house.cover_image"
-            alt=""
-            class="img-fluid rounded-4"
-            style="width: 50%"
-          />
+        <div class="col-md-12">
+          <img :src="house.cover_image" alt="" class="img-fluid rounded-4" />
         </div>
       </div>
     </div>
 
     <h3>Galleria:</h3>
-    <div class="gallery_container  d-flex gap-2">
-      <div v-for="images in gallery" class="img-container ">
-        <img :src="'http://localhost:8000/storage/' + images.image" class="img-thumbnail rounded-4" alt="" />
+    <div class="gallery_container row gap-2 row-cols-1 row-cols-lg-4 g-lg-3">
+      <div v-for="images in gallery" class="img-container col">
+        <img
+          :src="'http://localhost:8000/storage/' + images.image"
+          class="img-thumbnail rounded-4"
+          alt=""
+        />
       </div>
     </div>
 
@@ -177,10 +176,8 @@ export default {
 }
 
 .img-container > img {
-
-  max-height: 60%;
+  max-height: 90%;
   width: 100%;
   padding: 0;
 }
-
 </style>
