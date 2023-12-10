@@ -95,7 +95,7 @@ export default {
           class="card-img-top rounded-4"
           alt="..."
         />
-        <h4 class="card-title">{{ house.title }}</h4>
+        <h4 class="card-title mt-2">{{ house.title }}</h4>
         <p>
           {{ house.description }}
         </p>
