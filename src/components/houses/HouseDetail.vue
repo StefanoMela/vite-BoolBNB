@@ -10,6 +10,7 @@ export default {
     return {
       house: {},
       extras: {},
+      gallery: [],
       map: null,
       marker: null,
       error: {
@@ -31,6 +32,8 @@ export default {
           console.log(response);
           this.house = response.data;
           this.extras = response.data.extras;
+          this.gallery = response.data.galleries;
+          console.log(this.gallery);
 
           // Inizializzazione della mappa TomTom
           this.initMap();
@@ -94,6 +97,13 @@ export default {
             style="width: 50%"
           />
         </div>
+      </div>
+    </div>
+
+    <h3>Galleria:</h3>
+    <div class="gallery_container  d-flex gap-2">
+      <div v-for="images in gallery" class="img-container ">
+        <img :src="'http://localhost:8000/storage/' + images.image" class="img-thumbnail rounded-4" alt="" />
       </div>
     </div>
 
@@ -165,4 +175,12 @@ export default {
   height: 400px;
   position: relative;
 }
+
+.img-container > img {
+
+  max-height: 60%;
+  width: 100%;
+  padding: 0;
+}
+
 </style>
