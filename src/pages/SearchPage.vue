@@ -117,7 +117,7 @@ export default {
       <!-- Filtri service extra -->
       <div
         v-for="(extra, index) in extras"
-        class="icons-wrapper my-4"
+        class="icons-wrapper my-4 text-secondary"
         :style="{ color: extra.active ? '#4a266a' : '' }"
       >
         <font-awesome-icon
@@ -132,7 +132,7 @@ export default {
         {{ extra.name }}
       </div>
       <!-- Filtro bagni -->
-      <div class="icons-wrapper">
+      <div class="icons-wrapper text-secondary">
         <font-awesome-icon
           class="icons mx-4"
           icon="fa-solid fa-bath"
@@ -148,7 +148,7 @@ export default {
         </select>
       </div>
       <!-- Filtro camere -->
-      <div class="icons-wrapper">
+      <div class="icons-wrapper text-secondary">
         <font-awesome-icon
           class="icons mx-4"
           icon="fa-solid fa-couch"
@@ -164,7 +164,7 @@ export default {
         </select>
       </div>
       <!-- Filtro letti -->
-      <div class="icons-wrapper">
+      <div class="icons-wrapper text-secondary">
         <font-awesome-icon
           class="icons mx-4"
           icon="fa-solid fa-bed"
