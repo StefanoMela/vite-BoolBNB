@@ -1,7 +1,7 @@
-# Vue 3 + Vite
+# Vite + Vue - BoolBnb
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Final Course Project - BoolBNB
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Our team crafted a web application lookalike AirBnb using Laravel and Vite + Vue.js. 
+The platform enables users to easily search and reserve accommodations, with hosts managing their listings effortlessly. 
+TomTom powers the search function, and secure payments are processed through Braintree. A feature is the personalized filtering system, allowing users to refine search results for their ideal stay. Additionally, we integrated a messaging system for seamless communication between hosts and guests. Developed during our time at Boolean Careers, the project provided practical experience with modern web development tools. We take pride in the outcome, confident in applying these skills to future projects, showcasing our development abilities and enthusiasm for innovative solutions with the latest technologies.
